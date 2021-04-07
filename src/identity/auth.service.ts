@@ -12,7 +12,7 @@ export class AuthService {
     private userService: UsersService,
   ) {}
 
-  async validateUserAndReturn(userCredentialsDto: UserCredentialsDto) {
+  async findUserByCredentials(userCredentialsDto: UserCredentialsDto) {
     const user = await this.userService.findByEmail(userCredentialsDto.email);
     if (!user) return null;
 

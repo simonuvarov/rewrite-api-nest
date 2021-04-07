@@ -18,7 +18,7 @@ export class AuthController {
 
   @Post('/signin')
   async signin(@Body() userCredentialsDto: UserCredentialsDto) {
-    const user = await this.authService.validateUserAndReturn(
+    const user = await this.authService.findUserByCredentials(
       userCredentialsDto,
     );
     if (user) return this.authService.generateTokens(user);

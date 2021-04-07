@@ -16,11 +16,15 @@ export class UsersService {
     );
     return this.prisma.user.create({
       data: { email: userCredentialsDto.email, hash: hash },
+      select: { id: true, email: true, createdAt: true, updatedAt: true },
     });
   }
 
   findOne(id: string) {
-    return this.prisma.user.findFirst({ where: { id } });
+    return this.prisma.user.findFirst({
+      where: { id },
+      select: { id: true, email: true, createdAt: true, updatedAt: true },
+    });
   }
 
   findByEmail(email: string) {
