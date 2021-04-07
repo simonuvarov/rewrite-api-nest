@@ -2,6 +2,7 @@ import {
   Body,
   ConflictException,
   Controller,
+  HttpCode,
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -17,12 +18,15 @@ export class AuthController {
   ) {}
 
   @Post('/signin')
+  @HttpCode(200)
   async signin(@Body() userCredentialsDto: UserCredentialsDto) {
     const user = await this.authService.findUserByCredentials(
       userCredentialsDto,
     );
-    if (user) return this.authService.generateTokens(user);
-    else
+    if (user) {
+      const tokens = await this.authService.generateTokens(user);
+      return tokens;
+    } else
       throw new UnauthorizedException(
         'User not found or the password is wrong',
       );
