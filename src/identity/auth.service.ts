@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PasswordService } from 'src/identity/password.service';
+import { jwtConstants } from './constants';
 import { UserCredentialsDto } from './dto/user-credentials';
 import { UsersService } from './users.service';
 
@@ -27,8 +28,10 @@ export class AuthService {
   }
 
   async generateTokens(user: { id: string }) {
-    const payload = { id: user.id };
-    const accessToken = this.jwtService.sign(payload, { expiresIn: '30d' });
+    const accessToken = this.jwtService.sign(
+      {},
+      { expiresIn: '30d', subject: user.id, secret: jwtConstants.secret },
+    );
     return { accessToken };
   }
 }
