@@ -38,8 +38,11 @@ export class PapersService {
     return this.prisma.paper.findFirst({ where: { id: id } });
   }
 
-  update(id: string, updatePaperDto: UpdatePaperDto) {
-    this.prisma.paper.update({ where: { id: id }, data: updatePaperDto });
+  async update(id: string, updatePaperDto: UpdatePaperDto) {
+    return await this.prisma.paper.update({
+      where: { id: id },
+      data: updatePaperDto,
+    });
   }
 
   remove(id: string) {

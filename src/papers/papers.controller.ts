@@ -5,8 +5,8 @@ import {
   Get,
   NotFoundException,
   Param,
-  Patch,
   Post,
+  Put,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -46,7 +46,7 @@ export class PapersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updatePaperDto: UpdatePaperDto,
@@ -54,9 +54,11 @@ export class PapersController {
   ) {
     const userId = req.user.id;
     const paper = await this.papersService.findPaperById(id);
-    if (paper && paper.authorId === userId)
-      return this.papersService.update(id, updatePaperDto);
 
+    if (paper && paper.authorId === userId) {
+      const result = await this.papersService.update(id, updatePaperDto);
+      return result;
+    }
     throw new NotFoundException();
   }
 
