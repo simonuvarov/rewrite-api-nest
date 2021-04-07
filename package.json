@@ -23,6 +23,7 @@
   "dependencies": {
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
+    "@nestjs/jwt": "^7.2.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^7.6.15",
     "@prisma/client": "^2.20.1",
