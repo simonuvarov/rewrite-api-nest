@@ -8,9 +8,13 @@ import { UpdatePaperDto } from './dto/update-paper.dto';
 export class PapersService {
   constructor(private prisma: PrismaService) {}
 
-  createPaper(paper: CreatePaperDto) {
+  createPaper(paper: CreatePaperDto, userId: string) {
     return this.prisma.paper.create({
-      data: { question: paper.question || '', body: paper.body || '' },
+      data: {
+        question: paper.question || '',
+        body: paper.body || '',
+        author: { connect: { id: userId } },
+      },
     });
   }
 
@@ -30,7 +34,7 @@ export class PapersService {
     });
   }
 
-  findOne(id: string) {
+  findPaperById(id: string) {
     return this.prisma.paper.findFirst({ where: { id: id } });
   }
 

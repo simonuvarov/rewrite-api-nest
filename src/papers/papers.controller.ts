@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/identity/jwt-auth.guard';
@@ -20,34 +21,54 @@ export class PapersController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createPaperDto: CreatePaperDto) {
-    return this.papersService.createPaper(createPaperDto);
+  create(@Body() createPaperDto: CreatePaperDto, @Request() req: any) {
+    const userId = req.user.id;
+    return this.papersService.createPaper(createPaperDto, userId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.papersService.findAll({});
+  async findAll(@Request() req: any) {
+    const userId = req.user.id;
+    return await this.papersService.findAll({ where: { authorId: userId } });
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.papersService.findOne(id);
+  async findOne(@Param('id') id: string, @Request() req: any) {
+    const userId = req.user.id;
+
+    const paper = await this.papersService.findPaperById(id);
+    if (paper && paper.authorId === userId)
+      return this.papersService.findPaperById(id);
+
+    throw new NotFoundException();
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePaperDto: UpdatePaperDto) {
-    return this.papersService.update(id, updatePaperDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updatePaperDto: UpdatePaperDto,
+    @Request() req: any,
+  ) {
+    const userId = req.user.id;
+    const paper = await this.papersService.findPaperById(id);
+    if (paper && paper.authorId === userId)
+      return this.papersService.update(id, updatePaperDto);
+
+    throw new NotFoundException();
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    const found = !!(await this.findOne(id));
-    if (!found) throw new NotFoundException();
+  async remove(@Param('id') id: string, @Request() req: any) {
+    const userId = req.user.id;
 
-    return await this.papersService.remove(id);
+    const paper = await this.papersService.findPaperById(id);
+    if (paper && paper.authorId === userId)
+      return this.papersService.remove(id);
+
+    throw new NotFoundException();
   }
 }

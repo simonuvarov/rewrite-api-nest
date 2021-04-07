@@ -18,7 +18,8 @@ model Paper {
   ccBand    Int?
   lrBand    Int?
   grBand    Int?
-
+  author    User  @relation(fields: [authorId], references: [id])
+  authorId  String 
 }
 
 model User {
@@ -27,4 +28,5 @@ model User {
   hash      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  papers    Paper[]
 }
