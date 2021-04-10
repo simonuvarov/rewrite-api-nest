@@ -2807,6 +2807,11 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
+form-urlencoded@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/form-urlencoded/-/form-urlencoded-4.4.2.tgz#92913ec8e7375824fa1cc2d13093c8d30a122a8f"
+  integrity sha512-6sZj0HI9tCcGuzC9W/nkHvNLAjOo1G/jjnNluChOGMwn75Po6g5nGYASxQUJeSQHLng1SpovGjQr1f4xz1PqQw==
+
 formidable@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.2.2.tgz#bf69aea2972982675f00865342b982986f6b8dd9"

@@ -13,11 +13,15 @@ import {
 import { JwtAuthGuard } from 'src/identity/jwt-auth.guard';
 import { CreatePaperDto } from './dto/create-paper.dto';
 import { UpdatePaperDto } from './dto/update-paper.dto';
+import { GrammarService } from './grammar.service';
 import { PapersService } from './papers.service';
 
 @Controller('papers')
 export class PapersController {
-  constructor(private readonly papersService: PapersService) {}
+  constructor(
+    private readonly papersService: PapersService,
+    private grammarService: GrammarService,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -57,7 +61,8 @@ export class PapersController {
 
     if (paper && paper.authorId === userId) {
       const result = await this.papersService.update(id, updatePaperDto);
-      return result;
+      const issues = await this.grammarService.check(result.body);
+      return { ...result, issues };
     }
     throw new NotFoundException();
   }
