@@ -15,12 +15,18 @@ import { CreatePaperDto } from './dto/create-paper.dto';
 import { UpdatePaperDto } from './dto/update-paper.dto';
 import { GrammarService } from './grammar.service';
 import { PapersService } from './papers.service';
+import { RuleEngineService } from './rule-engine.service';
+import { ConclusionRule } from './rules/conclusion.rule';
+import { ErrorFreeSentecesRule } from './rules/error-free-sentences.rule';
+import { ParagraphCountRule } from './rules/paragraph-count.rule';
+import { WordCountRule } from './rules/word-count.rule';
 
 @Controller('papers')
 export class PapersController {
   constructor(
     private readonly papersService: PapersService,
     private grammarService: GrammarService,
+    private engine: RuleEngineService,
   ) {}
 
   @UseGuards(JwtAuthGuard)
@@ -60,9 +66,18 @@ export class PapersController {
     const paper = await this.papersService.findPaperById(id);
 
     if (paper && paper.authorId === userId) {
-      const result = await this.papersService.update(id, updatePaperDto);
-      const issues = await this.grammarService.check(result.body);
-      return { ...result, issues };
+      await this.papersService.update(id, updatePaperDto);
+      this.engine.setRules([
+        new ErrorFreeSentecesRule(this.grammarService),
+        new ConclusionRule(),
+        new WordCountRule(),
+        new ParagraphCountRule(),
+      ]);
+
+      await this.engine.run(updatePaperDto);
+      const bands = this.engine.bands;
+      const issues = this.engine.issues;
+      return { issues, bands };
     }
     throw new NotFoundException();
   }

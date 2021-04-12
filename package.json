@@ -31,6 +31,8 @@
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "compromise": "^13.10.6",
+    "compromise-paragraphs": "^0.0.5",
     "form-urlencoded": "^4.4.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",

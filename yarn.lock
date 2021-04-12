@@ -1945,6 +1945,18 @@ component-emitter@^1.2.1, component-emitter@^1.3.0:
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
   integrity sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==
 
+compromise-paragraphs@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/compromise-paragraphs/-/compromise-paragraphs-0.0.5.tgz#e5a869b2d2ad9ddb4361724d5f1437578ee9a802"
+  integrity sha512-jrchGs2a1havj1NYPNvU+JuIW4Tboo64Hq7zY8Bd0CNNOIwG/CVzrjcqaRW7khaxApOFvWJ0WZv/IGMtn+GNFA==
+
+compromise@^13.10.6:
+  version "13.10.6"
+  resolved "https://registry.yarnpkg.com/compromise/-/compromise-13.10.6.tgz#c729431e99cd612493ca0f146dedc22f0995c2c5"
+  integrity sha512-Bp/+gbjzlNFBvEiD/Gg/A5dIT2aYNYMAFDAqjzlQsyCgPddmkR2hXmMM7XLWFomXjca/I2kyjHdizfHIBzGw4w==
+  dependencies:
+    efrt-unpack "2.2.0"
+
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -2247,6 +2259,11 @@ ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
+
+efrt-unpack@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/efrt-unpack/-/efrt-unpack-2.2.0.tgz#b05dbec0fb8cb346a27840e00c969df9c72fee52"
+  integrity sha512-9xUSSj7qcUxz+0r4X3+bwUNttEfGfK5AH+LVa1aTpqdAfrN5VhROYCfcF+up4hp5OL7IUKcZJJrzAGipQRDoiQ==
 
 electron-to-chromium@^1.3.649:
   version "1.3.708"
