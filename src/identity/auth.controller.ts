@@ -2,12 +2,15 @@ import {
   Body,
   ConflictException,
   Controller,
+  Get,
   HttpCode,
   Post,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserCredentialsDto } from './dto/user-credentials';
+import { JwtAuthGuard } from './jwt-auth.guard';
 import { UsersService } from './users.service';
 
 @Controller('auth')
@@ -41,5 +44,12 @@ export class AuthController {
       throw new ConflictException('This email adress is alrady taken');
     const user = await this.userService.create(userCredentialsDto);
     return this.authService.generateTokens(user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/session')
+  @HttpCode(204)
+  session() {
+    return;
   }
 }
