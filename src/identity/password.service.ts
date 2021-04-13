@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { compare, hash } from 'bcrypt';
+import { hash, verify } from 'argon2';
 
 @Injectable()
 export class PasswordService {
-  validatePassword(password: string, hashedPassword: string): Promise<boolean> {
-    return compare(password, hashedPassword);
+  async validatePassword(
+    password: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
+    return await verify(hashedPassword, password);
   }
 
-  hashPassword(password: string): Promise<string> {
-    return hash(password, 10);
+  async hashPassword(password: string): Promise<string> {
+    return await hash(password);
   }
 }
