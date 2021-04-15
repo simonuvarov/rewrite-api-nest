@@ -63,7 +63,7 @@ export class ErrorFreeSentecesRule extends Rule {
         offset: issue.offset,
         length: issue.length,
         message: issue.message,
-        shortMessage: '',
+        shortMessage: issue.shortMessage,
         affects: this.affects,
         isInline: true,
       }),

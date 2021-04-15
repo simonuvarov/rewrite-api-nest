@@ -11,6 +11,7 @@ export enum GRAMMAR_ISSUE_TYPE {
 export type GrammarIssue = {
   type: GRAMMAR_ISSUE_TYPE;
   message: string;
+  shortMessage: string;
   offset: number;
   length: number;
   replacements: Array<string>;
@@ -64,7 +65,7 @@ export class GrammarService {
         formurlencoded({ text: text, language: 'en-US' }),
       )
       .toPromise();
-
+    console.log(JSON.stringify(result.data.matches, null, 2));
     return this.mapApiResponseToIssues(result.data);
   }
 
@@ -108,6 +109,7 @@ export class GrammarService {
       issues.push({
         type: this.mapLTCategoryToGrammarIssueType(match.rule.category.id),
         message: match.message,
+        shortMessage: match.shortMessage,
         offset: match.offset,
         length: match.length,
         replacements: match.replacements.map((r) => r.value),
