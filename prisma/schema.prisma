@@ -13,11 +13,11 @@ model Paper {
   body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  overallBand      Int?
-  taBand    Int?
-  ccBand    Int?
-  lrBand    Int?
-  grBand    Int?
+  overallBand      Int @default(0)
+  taBand    Int @default(0)
+  ccBand    Int @default(0)
+  lrBand    Int @default(0)
+  grBand    Int @default(0)
   author    User  @relation(fields: [authorId], references: [id])
   authorId  String 
 }
