@@ -30,8 +30,6 @@ export class ConclusionRule extends Rule {
           'You are required to write a conclusion in this type of essay.',
         shortMessage: 'Missing conclusion',
         isInline: false,
-        offset: 0,
-        length: 0,
       });
     }
   }

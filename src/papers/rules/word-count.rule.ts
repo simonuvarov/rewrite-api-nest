@@ -22,8 +22,6 @@ export class WordCountRule extends Rule {
         message: 'You need to write at least 250 words',
         shortMessage: 'Word count',
         isInline: false,
-        offset: 0,
-        length: 0,
       });
   }
 }

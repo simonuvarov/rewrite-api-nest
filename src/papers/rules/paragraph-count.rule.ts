@@ -23,8 +23,6 @@ export class ParagraphCountRule extends Rule {
           "Generally it's recommended to use 4 to 5 paragraphs in your essay",
         shortMessage: 'Paragraph count',
         isInline: false,
-        offset: 0,
-        length: 0,
         affects: this.affects,
       });
   }
