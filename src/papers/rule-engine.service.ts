@@ -8,6 +8,7 @@ export interface Issue {
   replacements?: Array<string>;
   affects: CRITERIA_TYPE;
   isInline: boolean;
+  link?: string;
 }
 
 export interface RuleExecutionResult {
