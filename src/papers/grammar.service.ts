@@ -65,7 +65,6 @@ export class GrammarService {
         formurlencoded({ text: text, language: 'en-US' }),
       )
       .toPromise();
-    console.log(JSON.stringify(result.data.matches, null, 2));
     return this.mapApiResponseToIssues(result.data);
   }
 
