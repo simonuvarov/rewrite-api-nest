@@ -40,7 +40,17 @@ export class PapersController {
   @Get()
   async findAll(@Request() req: any) {
     const userId = req.user.id;
-    return await this.papersService.findAll({ where: { authorId: userId } });
+    return await this.papersService.findAll({
+      where: {
+        authorId: userId,
+        OR: {
+          question: { not: '' },
+          body: {
+            not: '',
+          },
+        },
+      },
+    });
   }
 
   @UseGuards(JwtAuthGuard)
