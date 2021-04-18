@@ -20,10 +20,11 @@ export class ParagraphCountRule extends Rule {
     if (this.score !== 2)
       this.issues.push({
         message:
-          "Generally it's recommended to use 4 to 5 paragraphs in your essay",
-        shortMessage: 'Paragraph count',
+          "Generally it's recommended to use four to five paragraphs in your essay. One paragraph for an introduction, one for conclusion and two or three body paragraphs. In most cases such a number of body paragraphs is sufficient to develop your ideas.",
+        shortMessage: 'Insufficient paragraph count',
         isInline: false,
         affects: this.affects,
+        link: 'https://ieltsliz.com/how-many-paragraphs-for-an-ielts-essay/',
       });
   }
 }
