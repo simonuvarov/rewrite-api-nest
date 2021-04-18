@@ -19,9 +19,11 @@ export class WordCountRule extends Rule {
     if (this.score !== 2)
       this.issues.push({
         affects: this.affects,
-        message: 'You need to write at least 250 words',
-        shortMessage: 'Word count',
+        message:
+          'IELTS asks you to write at least 250 for Task 2. Aim for about 270 – 290 words. This will mean you are safely over the word limit but without adding too much irrelevant information. However, don’t write too much. Aim for quality rather than quantity. You will not get additional points for additional words. ',
+        shortMessage: 'Insufficient word count',
         isInline: false,
+        link: 'https://ieltsliz.com/how-many-words-ielts-writing/',
       });
   }
 }
