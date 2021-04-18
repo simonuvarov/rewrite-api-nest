@@ -2,7 +2,7 @@ import { Prisma } from '.prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreatePaperDto } from './dto/create-paper.dto';
-import { UpdatePaperDto } from './dto/update-paper.dto';
+import { SaveGradedPaperDto } from './dto/save-graded-paper-dto';
 
 @Injectable()
 export class PapersService {
@@ -38,10 +38,10 @@ export class PapersService {
     return this.prisma.paper.findFirst({ where: { id: id } });
   }
 
-  async update(id: string, updatePaperDto: UpdatePaperDto) {
+  async update(id: string, savePaperDto: SaveGradedPaperDto) {
     return await this.prisma.paper.update({
       where: { id: id },
-      data: updatePaperDto,
+      data: savePaperDto,
     });
   }
 

@@ -76,7 +76,6 @@ export class PapersController {
     const paper = await this.papersService.findPaperById(id);
 
     if (paper && paper.authorId === userId) {
-      await this.papersService.update(id, updatePaperDto);
       this.engine.setRules([
         new ErrorFreeSentecesRule(this.grammarService),
         new ConclusionRule(),
@@ -87,6 +86,17 @@ export class PapersController {
       await this.engine.run(updatePaperDto);
       const bands = this.engine.bands;
       const issues = this.engine.issues;
+
+      await this.papersService.update(id, {
+        question: updatePaperDto.question,
+        body: updatePaperDto.body,
+        overallBand: bands.overall,
+        taBand: bands.ta,
+        ccBand: bands.cc,
+        lrBand: bands.lr,
+        grBand: bands.gr,
+      });
+
       return { issues, bands };
     }
     throw new NotFoundException();
