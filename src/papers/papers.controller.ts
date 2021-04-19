@@ -18,6 +18,7 @@ import { PapersService } from './papers.service';
 import { RuleEngineService } from './rule-engine.service';
 import { ConclusionRule } from './rules/conclusion.rule';
 import { ErrorFreeSentecesRule } from './rules/error-free-sentences.rule';
+import { LinkingDevicesRule } from './rules/linking-devices.rule';
 import { ParagraphCountRule } from './rules/paragraph-count.rule';
 import { WordCountRule } from './rules/word-count.rule';
 
@@ -81,6 +82,7 @@ export class PapersController {
         new ConclusionRule(),
         new WordCountRule(),
         new ParagraphCountRule(),
+        new LinkingDevicesRule(),
       ]);
 
       await this.engine.run(updatePaperDto);
