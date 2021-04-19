@@ -39,12 +39,19 @@ export abstract class Rule {
   abstract get affects(): CRITERIA_TYPE;
   protected score: number;
   protected issues: Array<Issue> = [];
+  protected readonly logger = new Logger(this.constructor.name);
 
   public async execute(paper: {
     question: string;
     body: string;
   }): Promise<RuleExecutionResult> {
+    const startTime = new Date();
+
     await this._execute(paper);
+
+    const endTime = new Date();
+    this.logger.debug(`Finished running in ${+endTime - +startTime}ms`);
+
     return {
       affects: this.affects,
       score: this.score,
