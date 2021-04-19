@@ -22,6 +22,7 @@ import { LinkingDevicesRule } from './rules/linking-devices.rule';
 import { ParagraphCountRule } from './rules/paragraph-count.rule';
 import { PassiveVoiceRule } from './rules/passive-voice.rule';
 import { PerfectTenseRule } from './rules/perfect-tense.rule';
+import { SpellingErrorsRule } from './rules/spelling-errors.rule';
 import { WordCountRule } from './rules/word-count.rule';
 
 @Controller('papers')
@@ -87,6 +88,7 @@ export class PapersController {
         new LinkingDevicesRule(),
         new PassiveVoiceRule(),
         new PerfectTenseRule(),
+        new SpellingErrorsRule(this.grammarService),
       ]);
 
       await this.engine.run(updatePaperDto);
