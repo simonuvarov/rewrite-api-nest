@@ -133,15 +133,14 @@ export class RuleEngineService {
   }
 
   public async run(paper: { question: string; body: string }) {
-    this.logger.debug(
-      `RuleEngine is about to run with ${this.rules.length} rule(s)`,
-    );
+    const startTime = new Date();
 
     this.results = await Promise.all(
       this.rules.map((rule) => rule.execute(paper)),
     );
+    const endTime = new Date();
 
-    this.logger.debug('RuleEngine finished running');
+    this.logger.debug(`Finished running rules in ${+endTime - +startTime}ms`);
   }
 
   private roundToNearestHalf(n: number): number {
