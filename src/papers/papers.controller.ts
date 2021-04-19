@@ -16,6 +16,7 @@ import { UpdatePaperDto } from './dto/update-paper.dto';
 import { GrammarService } from './grammar.service';
 import { PapersService } from './papers.service';
 import { RuleEngineService } from './rule-engine.service';
+import { AcademicWordsRule } from './rules/academic-words.rule';
 import { ConclusionRule } from './rules/conclusion.rule';
 import { ErrorFreeSentecesRule } from './rules/error-free-sentences.rule';
 import { LinkingDevicesRule } from './rules/linking-devices.rule';
@@ -89,6 +90,7 @@ export class PapersController {
         new PassiveVoiceRule(),
         new PerfectTenseRule(),
         new SpellingErrorsRule(this.grammarService),
+        new AcademicWordsRule(),
       ]);
 
       await this.engine.run(updatePaperDto);
