@@ -20,6 +20,7 @@ import { ConclusionRule } from './rules/conclusion.rule';
 import { ErrorFreeSentecesRule } from './rules/error-free-sentences.rule';
 import { LinkingDevicesRule } from './rules/linking-devices.rule';
 import { ParagraphCountRule } from './rules/paragraph-count.rule';
+import { PassiveVoiceRule } from './rules/passive-voice.rule';
 import { WordCountRule } from './rules/word-count.rule';
 
 @Controller('papers')
@@ -83,6 +84,7 @@ export class PapersController {
         new WordCountRule(),
         new ParagraphCountRule(),
         new LinkingDevicesRule(),
+        new PassiveVoiceRule(),
       ]);
 
       await this.engine.run(updatePaperDto);
