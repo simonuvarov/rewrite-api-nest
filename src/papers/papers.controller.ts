@@ -21,6 +21,7 @@ import { ErrorFreeSentecesRule } from './rules/error-free-sentences.rule';
 import { LinkingDevicesRule } from './rules/linking-devices.rule';
 import { ParagraphCountRule } from './rules/paragraph-count.rule';
 import { PassiveVoiceRule } from './rules/passive-voice.rule';
+import { PerfectTenseRule } from './rules/perfect-tense.rule';
 import { WordCountRule } from './rules/word-count.rule';
 
 @Controller('papers')
@@ -85,6 +86,7 @@ export class PapersController {
         new ParagraphCountRule(),
         new LinkingDevicesRule(),
         new PassiveVoiceRule(),
+        new PerfectTenseRule(),
       ]);
 
       await this.engine.run(updatePaperDto);
