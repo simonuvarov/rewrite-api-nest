@@ -19,6 +19,7 @@ import { RuleEngineService } from './rule-engine.service';
 import { AcademicWordsRule } from './rules/academic-words.rule';
 import { ConclusionRule } from './rules/conclusion.rule';
 import { ErrorFreeSentecesRule } from './rules/error-free-sentences.rule';
+import { InformalWordsRule } from './rules/informal-words.rule';
 import { LinkingDevicesRule } from './rules/linking-devices.rule';
 import { ParagraphCountRule } from './rules/paragraph-count.rule';
 import { PassiveVoiceRule } from './rules/passive-voice.rule';
@@ -91,6 +92,7 @@ export class PapersController {
         new PerfectTenseRule(),
         new SpellingErrorsRule(this.grammarService),
         new AcademicWordsRule(),
+        new InformalWordsRule(),
       ]);
 
       await this.engine.run(updatePaperDto);
