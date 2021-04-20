@@ -38,8 +38,8 @@ export class InformalWordsRule extends Rule {
           message:
             'You are asked to write an academic essay. Avoid using informal words to make your language as formal and academic as possible.',
           shortMessage: `Informal word: ${m.terms[0].text}`,
-          offset: m.offset.start,
-          length: m.offset.length,
+          offset: m.terms[0].offset.start,
+          length: m.terms[0].offset.length,
         } as InlineIssue),
     );
 
