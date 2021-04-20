@@ -18,6 +18,7 @@ import { PapersService } from './papers.service';
 import { RuleEngineService } from './rule-engine.service';
 import { AcademicWordsRule } from './rules/academic-words.rule';
 import { ConclusionRule } from './rules/conclusion.rule';
+import { ContractionsRule } from './rules/contractions.rule';
 import { ErrorFreeSentecesRule } from './rules/error-free-sentences.rule';
 import { InformalWordsRule } from './rules/informal-words.rule';
 import { LinkingDevicesRule } from './rules/linking-devices.rule';
@@ -93,6 +94,7 @@ export class PapersController {
         new SpellingErrorsRule(this.grammarService),
         new AcademicWordsRule(),
         new InformalWordsRule(),
+        new ContractionsRule(),
       ]);
 
       await this.engine.run(updatePaperDto);
