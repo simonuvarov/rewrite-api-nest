@@ -16,7 +16,9 @@ const INFORMAL_WORDS_AVOID_LIST = [
   'dumb',
 ];
 
-const INFORMAL_WORDS_AVOID_STRING = `(${INFORMAL_WORDS_AVOID_LIST.join('|')})`;
+const INFORMAL_WORDS_AVOID_MATCH_STRING = `(${INFORMAL_WORDS_AVOID_LIST.join(
+  '|',
+)})`;
 
 export class InformalWordsRule extends Rule {
   get affects(): CRITERIA_TYPE {
@@ -25,7 +27,7 @@ export class InformalWordsRule extends Rule {
   async _execute(paper: { question: string; body: string }) {
     const doc = nlp(paper.body);
 
-    const matches = doc.match(INFORMAL_WORDS_AVOID_STRING);
+    const matches = doc.match(INFORMAL_WORDS_AVOID_MATCH_STRING);
     const matchesJson = matches.json({ offset: true });
 
     const issues: Array<InlineIssue> = matchesJson.map(

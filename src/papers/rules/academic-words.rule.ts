@@ -574,7 +574,7 @@ const AWL = [
   'widespread',
 ];
 
-const LINKING_WORDS_MATCH_STRING = `(${AWL.join('|')})`;
+const ACADEMIC_WORDS_MATCH_STRING = `(${AWL.join('|')})`;
 
 export class AcademicWordsRule extends Rule {
   get affects(): CRITERIA_TYPE {
@@ -583,7 +583,7 @@ export class AcademicWordsRule extends Rule {
   async _execute(paper: { question: string; body: string }) {
     const doc = nlp(paper.body);
 
-    const matches = doc.match(LINKING_WORDS_MATCH_STRING);
+    const matches = doc.match(ACADEMIC_WORDS_MATCH_STRING);
     const matchCount = matches.out('array').length;
 
     if (matchCount > 2) this.score = 2;
