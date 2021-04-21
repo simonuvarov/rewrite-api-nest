@@ -1,18 +1,16 @@
-import nlp from 'compromise';
+import { NlpService } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 export class ContractionsRule extends Rule {
-  private findContractions(text: string): number {
-    const doc = nlp(text);
-    const match = doc.contractions();
-    return match.out('array').length;
+  constructor(private nlpService: NlpService) {
+    super();
   }
 
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }
   async _execute(paper: { question: string; body: string }) {
-    const doc = nlp(paper.body);
+    const doc = await this.nlpService.parse(paper.body);
     const contractions = doc.contractions();
 
     contractions.forEach((c) => {

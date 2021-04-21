@@ -9,6 +9,7 @@ export class ConclusionRule extends Rule {
     return CRITERIA_TYPE.TA;
   }
   async _execute(paper: { question: string; body: string }) {
+    //TODO: replace with service
     const _nlp = nlp.extend(paragraphsPlugin);
     const doc = _nlp(paper.body);
 

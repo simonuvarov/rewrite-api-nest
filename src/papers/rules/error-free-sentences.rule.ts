@@ -1,12 +1,15 @@
-import nlp from 'compromise';
 import { GrammarService, GRAMMAR_ISSUE_TYPE } from '../grammar.service';
+import { NlpService } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 export class ErrorFreeSentecesRule extends Rule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.GR;
   }
-  constructor(private grammarService: GrammarService) {
+  constructor(
+    private grammarService: GrammarService,
+    private nlpService: NlpService,
+  ) {
     super();
   }
 
@@ -15,7 +18,8 @@ export class ErrorFreeSentecesRule extends Rule {
   }
 
   async _execute(paper: { question: string; body: string }) {
-    const sentences = nlp(paper.body).sentences().out('array');
+    const doc = await this.nlpService.parse(paper.body);
+    const sentences = doc.sentences().out('array');
 
     const foundIssues = await this.grammarService.check(paper.body);
     const grammarIssues = foundIssues.filter(

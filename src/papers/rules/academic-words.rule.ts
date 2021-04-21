@@ -1,4 +1,5 @@
-import nlp from 'compromise';
+import { Inject } from '@nestjs/common';
+import { NlpService } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 const AWL = [
@@ -577,11 +578,14 @@ const AWL = [
 const ACADEMIC_WORDS_MATCH_STRING = `(${AWL.join('|')})`;
 
 export class AcademicWordsRule extends Rule {
+  constructor(@Inject() private nlpService: NlpService) {
+    super();
+  }
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.LR;
   }
   async _execute(paper: { question: string; body: string }) {
-    const doc = nlp(paper.body);
+    const doc = await this.nlpService.parse(paper.body);
 
     const matches = doc.match(ACADEMIC_WORDS_MATCH_STRING);
     const matchCount = matches.out('array').length;

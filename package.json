@@ -36,6 +36,7 @@
     "form-urlencoded": "^4.4.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "piscina": "^2.2.0",
     "prisma": "^2.20.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

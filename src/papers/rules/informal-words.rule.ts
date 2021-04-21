@@ -1,4 +1,4 @@
-import nlp from 'compromise';
+import { NlpService } from '../nlp.service';
 import { CRITERIA_TYPE, InlineIssue, Rule } from '../rule-engine.service';
 
 const INFORMAL_WORDS_AVOID_LIST = [
@@ -21,11 +21,14 @@ const INFORMAL_WORDS_AVOID_MATCH_STRING = `(${INFORMAL_WORDS_AVOID_LIST.join(
 )})`;
 
 export class InformalWordsRule extends Rule {
+  constructor(private nlpService: NlpService) {
+    super();
+  }
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }
   async _execute(paper: { question: string; body: string }) {
-    const doc = nlp(paper.body);
+    const doc = await this.nlpService.parse(paper.body);
 
     const matches = doc.match(INFORMAL_WORDS_AVOID_MATCH_STRING);
     const matchesJson = matches.json({ offset: true });

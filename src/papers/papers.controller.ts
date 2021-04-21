@@ -14,6 +14,7 @@ import { JwtAuthGuard } from 'src/identity/jwt-auth.guard';
 import { CreatePaperDto } from './dto/create-paper.dto';
 import { UpdatePaperDto } from './dto/update-paper.dto';
 import { GrammarService } from './grammar.service';
+import { NlpService } from './nlp.service';
 import { PapersService } from './papers.service';
 import { RuleEngineService } from './rule-engine.service';
 import { AcademicWordsRule } from './rules/academic-words.rule';
@@ -34,19 +35,20 @@ export class PapersController {
     private readonly papersService: PapersService,
     private grammarService: GrammarService,
     private engine: RuleEngineService,
+    private nlpService: NlpService,
   ) {
     this.engine.setRules([
-      new ErrorFreeSentecesRule(this.grammarService),
+      new ErrorFreeSentecesRule(this.grammarService, this.nlpService),
       new ConclusionRule(),
-      new WordCountRule(),
+      new WordCountRule(this.nlpService),
       new ParagraphCountRule(),
-      new LinkingDevicesRule(),
-      new PassiveVoiceRule(),
-      new PerfectTenseRule(),
-      new SpellingErrorsRule(this.grammarService),
-      new AcademicWordsRule(),
-      new InformalWordsRule(),
-      new ContractionsRule(),
+      new LinkingDevicesRule(nlpService),
+      new PassiveVoiceRule(this.nlpService),
+      new PerfectTenseRule(this.nlpService),
+      new SpellingErrorsRule(this.grammarService, this.nlpService),
+      new AcademicWordsRule(this.nlpService),
+      new InformalWordsRule(this.nlpService),
+      new ContractionsRule(this.nlpService),
     ]);
   }
 

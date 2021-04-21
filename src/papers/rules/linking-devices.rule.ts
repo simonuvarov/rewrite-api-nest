@@ -1,4 +1,4 @@
-import nlp from 'compromise';
+import { NlpService } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 const LINKING_WORDS_LIST = [
@@ -56,11 +56,15 @@ const LINKING_WORDS_LIST = [
 const LINKING_WORDS_MATCH_STRING = `(${LINKING_WORDS_LIST.join('|')})`;
 
 export class LinkingDevicesRule extends Rule {
+  constructor(private nlpService: NlpService) {
+    super();
+  }
+
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.CC;
   }
   async _execute(paper: { question: string; body: string }) {
-    const doc = nlp(paper.body);
+    const doc = await this.nlpService.parse(paper.body);
 
     const matches = doc.match(LINKING_WORDS_MATCH_STRING);
     const matchCount = matches.out('array').length;
