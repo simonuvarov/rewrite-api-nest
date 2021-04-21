@@ -34,7 +34,21 @@ export class PapersController {
     private readonly papersService: PapersService,
     private grammarService: GrammarService,
     private engine: RuleEngineService,
-  ) {}
+  ) {
+    this.engine.setRules([
+      new ErrorFreeSentecesRule(this.grammarService),
+      new ConclusionRule(),
+      new WordCountRule(),
+      new ParagraphCountRule(),
+      new LinkingDevicesRule(),
+      new PassiveVoiceRule(),
+      new PerfectTenseRule(),
+      new SpellingErrorsRule(this.grammarService),
+      new AcademicWordsRule(),
+      new InformalWordsRule(),
+      new ContractionsRule(),
+    ]);
+  }
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -83,20 +97,6 @@ export class PapersController {
     const paper = await this.papersService.findPaperById(id);
 
     if (paper && paper.authorId === userId) {
-      this.engine.setRules([
-        new ErrorFreeSentecesRule(this.grammarService),
-        new ConclusionRule(),
-        new WordCountRule(),
-        new ParagraphCountRule(),
-        new LinkingDevicesRule(),
-        new PassiveVoiceRule(),
-        new PerfectTenseRule(),
-        new SpellingErrorsRule(this.grammarService),
-        new AcademicWordsRule(),
-        new InformalWordsRule(),
-        new ContractionsRule(),
-      ]);
-
       await this.engine.run(updatePaperDto);
       const bands = this.engine.bands;
       const issues = this.engine.issues;
