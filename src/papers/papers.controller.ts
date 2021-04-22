@@ -42,7 +42,7 @@ export class PapersController {
       new ConclusionRule(),
       new WordCountRule(this.nlpService),
       new ParagraphCountRule(),
-      new LinkingDevicesRule(nlpService),
+      new LinkingDevicesRule(this.nlpService),
       new PassiveVoiceRule(this.nlpService),
       new PerfectTenseRule(this.nlpService),
       new SpellingErrorsRule(this.grammarService, this.nlpService),

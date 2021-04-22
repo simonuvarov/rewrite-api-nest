@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, Scope } from '@nestjs/common';
 
 export interface InlineIssue {
   message: string;
@@ -70,7 +70,7 @@ export abstract class Rule {
   }): Promise<void>;
 }
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class RuleEngineService {
   private rules: Array<Rule>;
   private results: Array<RuleExecutionResult>;
