@@ -61,7 +61,7 @@ export class GrammarService {
   async check(text: string): Promise<GrammarCheckResult> {
     const result = await this.httpService
       .post<LTApiResponse>(
-        'http://localhost:8010/v2/check',
+        `${process.env.LT_URL}/v2/check`,
         formurlencoded({ text: text, language: 'en-US' }),
       )
       .toPromise();
