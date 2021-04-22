@@ -70,7 +70,7 @@ export class ErrorFreeSentecesRule extends Rule {
         shortMessage: issue.shortMessage,
         affects: this.affects,
         isInline: true,
-        replacements: issue.replacements,
+        replacements: issue.replacements.slice(0, 3),
       }),
     );
   }
