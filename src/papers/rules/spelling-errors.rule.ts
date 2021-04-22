@@ -69,6 +69,7 @@ export class SpellingErrorsRule extends Rule {
         shortMessage: issue.shortMessage,
         affects: this.affects,
         isInline: true,
+        replacements: issue.replacements,
       }),
     );
   }
