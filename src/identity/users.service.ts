@@ -1,23 +1,33 @@
 import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'src/prisma.service';
 import { UserCredentialsDto } from './dto/user-credentials';
 import { PasswordService } from './password.service';
+import { UserCreatedEvent } from './events/user-created.event';
 
 @Injectable()
 export class UsersService {
   constructor(
     private prisma: PrismaService,
     private passwordService: PasswordService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async create(userCredentialsDto: UserCredentialsDto) {
     const hash = await this.passwordService.hashPassword(
       userCredentialsDto.password,
     );
-    return this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data: { email: userCredentialsDto.email, hash: hash },
       select: { id: true, email: true, createdAt: true, updatedAt: true },
     });
+
+    this.eventEmitter.emit(
+      'user.created',
+      new UserCreatedEvent(user.id, user.email),
+    );
+
+    return user;
   }
 
   findOne(id: string) {
