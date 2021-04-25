@@ -85,6 +85,19 @@ export class RuleEngineService {
     this.rules = rules;
   }
 
+  private sortIssues(issues: Array<Issue>): Array<Issue> {
+    const sortedIssues = issues.sort((a, b) => {
+      if (!a.isInline && b.isInline) return -1;
+      if (a.isInline && !b.isInline) return 1;
+      if (!a.isInline && !b.isInline) {
+        if (a.affects < b.affects) return -1;
+        if (a.affects > b.affects) return 1;
+      }
+      if (a.isInline && b.isInline) return a.offset - b.offset;
+    });
+    return sortedIssues;
+  }
+
   private calculateBandForCriteria(criteria: CRITERIA_TYPE) {
     if (this.results.length === 0)
       throw new Error('You need to run the rules first');
@@ -136,7 +149,8 @@ export class RuleEngineService {
     if (this.results.length === 0)
       throw new Error('You need to run the rules first');
 
-    return this.results.flatMap((r) => r.issues);
+    const issues = this.results.flatMap((r) => r.issues);
+    return this.sortIssues(issues);
   }
 
   public async run(paper: { question: string; body: string }) {
