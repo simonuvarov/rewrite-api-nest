@@ -20,6 +20,6 @@ import { UsersService } from './users.service';
     JwtAuthGuard,
   ],
   imports: [JwtModule.register({ secret: 'hard!to-guess_secret' })],
-  exports: [JwtAuthGuard],
+  exports: [JwtAuthGuard, UsersService],
 })
 export class IdentityModule {}
