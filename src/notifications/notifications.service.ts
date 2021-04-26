@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { UserCreatedEvent } from 'src/identity/events/user-created.event';
-import { EmailService } from './email.service';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class NotificationsService {
