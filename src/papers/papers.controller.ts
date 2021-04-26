@@ -13,21 +13,21 @@ import {
 import { JwtAuthGuard } from 'src/identity/jwt-auth.guard';
 import { CreatePaperDto } from './dto/create-paper.dto';
 import { UpdatePaperDto } from './dto/update-paper.dto';
-import { GrammarService } from './grammar.service';
-import { NlpService } from './nlp.service';
+import { GrammarService } from '../engine/grammar.service';
+import { NlpService } from '../engine/nlp.service';
 import { PapersService } from './papers.service';
-import { RuleEngineService } from './rule-engine.service';
-import { AcademicWordsRule } from './rules/academic-words.rule';
-import { ConclusionRule } from './rules/conclusion.rule';
-import { ContractionsRule } from './rules/contractions.rule';
-import { ErrorFreeSentecesRule } from './rules/error-free-sentences.rule';
-import { InformalWordsRule } from './rules/informal-words.rule';
-import { LinkingDevicesRule } from './rules/linking-devices.rule';
-import { ParagraphCountRule } from './rules/paragraph-count.rule';
-import { PassiveVoiceRule } from './rules/passive-voice.rule';
-import { PerfectTenseRule } from './rules/perfect-tense.rule';
-import { SpellingErrorsRule } from './rules/spelling-errors.rule';
-import { WordCountRule } from './rules/word-count.rule';
+import { RuleEngineService } from '../engine/rule-engine.service';
+import { AcademicWordsRule } from '../engine/rules/academic-words.rule';
+import { ConclusionRule } from '../engine/rules/conclusion.rule';
+import { ContractionsRule } from '../engine/rules/contractions.rule';
+import { ErrorFreeSentecesRule } from '../engine/rules/error-free-sentences.rule';
+import { InformalWordsRule } from '../engine/rules/informal-words.rule';
+import { LinkingDevicesRule } from '../engine/rules/linking-devices.rule';
+import { ParagraphCountRule } from '../engine/rules/paragraph-count.rule';
+import { PassiveVoiceRule } from '../engine/rules/passive-voice.rule';
+import { PerfectTenseRule } from '../engine/rules/perfect-tense.rule';
+import { SpellingErrorsRule } from '../engine/rules/spelling-errors.rule';
+import { WordCountRule } from '../engine/rules/word-count.rule';
 
 @Controller('papers')
 export class PapersController {

@@ -1,21 +1,13 @@
-import { HttpModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { EngineModule } from 'src/engine/engine.module';
 import { IdentityModule } from 'src/identity/identity.module';
 import { PrismaService } from 'src/prisma.service';
-import { GrammarService } from './grammar.service';
-import { NlpService } from './nlp.service';
 import { PapersController } from './papers.controller';
 import { PapersService } from './papers.service';
-import { RuleEngineService } from './rule-engine.service';
 
 @Module({
   controllers: [PapersController],
-  providers: [
-    PapersService,
-    PrismaService,
-    GrammarService,
-    RuleEngineService,
-    NlpService,
-  ],
-  imports: [IdentityModule, HttpModule],
+  providers: [PapersService, PrismaService],
+  imports: [IdentityModule, EngineModule],
 })
 export class PapersModule {}
