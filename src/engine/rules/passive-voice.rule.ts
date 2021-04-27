@@ -21,7 +21,8 @@ export class PassiveVoiceRule extends Rule {
       this.issues.push({
         id: uuid(),
         affects: this.affects,
-        message: 'You need to use passive voice.',
+        message:
+          'You need to use a variety of sentece structures in your essay to get a higher score. Passive voice (e.g. “It is known that...“) seems to be missing. Also, passive voice sounds more formal.',
         shortMessage: 'Passive voice',
         isInline: false,
       });
