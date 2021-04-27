@@ -1,5 +1,6 @@
 import nlp from 'compromise';
 import paragraphsPlugin from 'compromise-paragraphs';
+import { v4 as uuid } from 'uuid';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 const CONCLUSION_DEVICES = ['to conclude', 'in conclusion', 'to sum up'];
@@ -26,6 +27,7 @@ export class ConclusionRule extends Rule {
     else {
       this.score = -2;
       this.issues.push({
+        id: uuid(),
         affects: this.affects,
         message:
           'You are required to write a conclusion in this type of essay.',

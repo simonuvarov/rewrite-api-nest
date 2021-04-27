@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 export class ParagraphCountRule extends Rule {
@@ -19,6 +20,7 @@ export class ParagraphCountRule extends Rule {
 
     if (this.score !== 2)
       this.issues.push({
+        id: uuid(),
         message:
           "Generally it's recommended to use four to five paragraphs in your essay. One paragraph for an introduction, one for conclusion and two or three body paragraphs. In most cases such a number of body paragraphs is sufficient to develop your ideas.",
         shortMessage: 'Insufficient paragraph count',

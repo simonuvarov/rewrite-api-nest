@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { NlpService } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
@@ -73,6 +74,7 @@ export class LinkingDevicesRule extends Rule {
     else {
       this.score = -2;
       this.issues.push({
+        id: uuid(),
         affects: this.affects,
         message: 'You need to use cohesive devices to get good score.',
         shortMessage: 'Linking words',

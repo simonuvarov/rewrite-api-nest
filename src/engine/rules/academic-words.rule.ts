@@ -1,4 +1,5 @@
 import { Inject } from '@nestjs/common';
+import { v4 as uuid } from 'uuid';
 import { NlpService } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
@@ -594,6 +595,7 @@ export class AcademicWordsRule extends Rule {
     else {
       this.score = -2;
       this.issues.push({
+        id: uuid(),
         affects: this.affects,
         message: 'Use more academic words.',
         shortMessage: 'Academic words',

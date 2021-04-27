@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { GrammarService, GRAMMAR_ISSUE_TYPE } from '../grammar.service';
 import { NlpService } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
@@ -64,6 +65,7 @@ export class ErrorFreeSentecesRule extends Rule {
 
     grammarIssues.map((issue) =>
       this.issues.push({
+        id: uuid(),
         offset: issue.offset,
         length: issue.length,
         message: issue.message,

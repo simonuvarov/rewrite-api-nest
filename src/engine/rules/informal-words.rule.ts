@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { NlpService } from '../nlp.service';
 import { CRITERIA_TYPE, InlineIssue, Rule } from '../rule-engine.service';
 
@@ -36,6 +37,7 @@ export class InformalWordsRule extends Rule {
     const issues: Array<InlineIssue> = matchesJson.map(
       (m) =>
         ({
+          id: uuid(),
           isInline: true,
           affects: this.affects,
           message:

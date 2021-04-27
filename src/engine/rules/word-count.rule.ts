@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { NlpService } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
@@ -23,6 +24,7 @@ export class WordCountRule extends Rule {
 
     if (this.score !== 2)
       this.issues.push({
+        id: uuid(),
         affects: this.affects,
         message:
           'IELTS asks you to write at least 250 for Task 2. Aim for about 270 – 290 words. This will mean you are safely over the word limit but without adding too much irrelevant information. However, don’t write too much. Aim for quality rather than quantity. You will not get additional points for additional words. ',

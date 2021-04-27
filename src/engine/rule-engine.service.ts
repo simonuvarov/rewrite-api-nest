@@ -1,6 +1,7 @@
 import { Injectable, Logger, Scope } from '@nestjs/common';
 
 export interface InlineIssue {
+  id: string;
   message: string;
   shortMessage: string;
   offset: number;
@@ -12,6 +13,7 @@ export interface InlineIssue {
 }
 
 export interface NotInlineIssue {
+  id: string;
   message: string;
   shortMessage: string;
   affects: CRITERIA_TYPE;
