@@ -1,6 +1,7 @@
 import nlp from 'compromise';
 import paragraphsPlugin from 'compromise-paragraphs';
 import { v4 as uuid } from 'uuid';
+import { ParsedText } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 const CONCLUSION_DEVICES = ['to conclude', 'in conclusion', 'to sum up'];
@@ -9,10 +10,10 @@ export class ConclusionRule extends Rule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }
-  async _execute(paper: { question: string; body: string }) {
+  async _execute(paper: { question: string; body: ParsedText }) {
     //TODO: replace with service
     const _nlp = nlp.extend(paragraphsPlugin);
-    const doc = _nlp(paper.body);
+    const doc = _nlp(paper.body.text());
 
     let conclusionFound = false;
     const lastParagraph = doc.paragraphs().last();

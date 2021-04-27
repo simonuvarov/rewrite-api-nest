@@ -1,4 +1,5 @@
 import { Injectable, Logger, Scope } from '@nestjs/common';
+import { NlpService, ParsedText } from './nlp.service';
 
 export interface InlineIssue {
   id: string;
@@ -45,7 +46,7 @@ export abstract class Rule {
 
   public async execute(paper: {
     question: string;
-    body: string;
+    body: ParsedText;
   }): Promise<RuleExecutionResult> {
     const startTime = new Date();
 
@@ -68,7 +69,7 @@ export abstract class Rule {
 
   protected abstract _execute(paper: {
     question: string;
-    body: string;
+    body: ParsedText;
   }): Promise<void>;
 }
 
@@ -78,7 +79,7 @@ export class RuleEngineService {
   private results: Array<RuleExecutionResult>;
   private readonly logger = new Logger(RuleEngineService.name);
 
-  constructor() {
+  constructor(private nlpService: NlpService) {
     this.rules = [];
     this.results = [];
   }
@@ -158,8 +159,12 @@ export class RuleEngineService {
   public async run(paper: { question: string; body: string }) {
     const startTime = new Date();
 
+    const parsedBody = await this.nlpService.parse(paper.body);
+
     this.results = await Promise.all(
-      this.rules.map((rule) => rule.execute(paper)),
+      this.rules.map((rule) =>
+        rule.execute({ question: paper.question, body: parsedBody }),
+      ),
     );
     const endTime = new Date();
 

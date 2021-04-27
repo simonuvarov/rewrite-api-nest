@@ -1,12 +1,14 @@
 import { v4 as uuid } from 'uuid';
+import { ParsedText } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 export class ParagraphCountRule extends Rule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.CC;
   }
-  async _execute(paper: { question: string; body: string }) {
-    const paragraphCount = paper.body.replace(/\n$/gm, '').split(/\n/).length;
+  async _execute(paper: { question: string; body: ParsedText }) {
+    const paragraphCount = paper.body.text().replace(/\n$/gm, '').split(/\n/)
+      .length;
 
     if (paragraphCount >= 4 && paragraphCount <= 5) {
       this.score = 2;

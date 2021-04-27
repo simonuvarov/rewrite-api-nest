@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { NlpService } from '../nlp.service';
+import { NlpService, ParsedText } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 const LINKING_WORDS_LIST = [
@@ -64,10 +64,8 @@ export class LinkingDevicesRule extends Rule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.CC;
   }
-  async _execute(paper: { question: string; body: string }) {
-    const doc = await this.nlpService.parse(paper.body);
-
-    const matches = doc.match(LINKING_WORDS_MATCH_STRING);
+  async _execute(paper: { question: string; body: ParsedText }) {
+    const matches = paper.body.match(LINKING_WORDS_MATCH_STRING);
     const matchCount = matches.out('array').length;
 
     if (matchCount > 2) this.score = 2;

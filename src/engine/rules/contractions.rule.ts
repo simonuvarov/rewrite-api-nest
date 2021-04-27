@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { NlpService } from '../nlp.service';
+import { NlpService, ParsedText } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 export class ContractionsRule extends Rule {
@@ -10,9 +10,8 @@ export class ContractionsRule extends Rule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }
-  async _execute(paper: { question: string; body: string }) {
-    const doc = await this.nlpService.parse(paper.body);
-    const contractions = doc.contractions();
+  async _execute(paper: { question: string; body: ParsedText }) {
+    const contractions = paper.body.contractions();
 
     contractions.forEach((c) => {
       this.issues.push({

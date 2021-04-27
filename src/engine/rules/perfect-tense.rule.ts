@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { NlpService } from '../nlp.service';
+import { NlpService, ParsedText } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 export class PerfectTenseRule extends Rule {
@@ -7,19 +7,15 @@ export class PerfectTenseRule extends Rule {
     super();
   }
 
-  private async countPerfectTense(text: string): Promise<number> {
-    const doc = await this.nlpService.parse(text);
-    const match = doc.match(
-      '(will|shall)? (has|have|had) #Negative? #Adverb? #Verb+',
-    );
-    return match.out('array').length;
-  }
-
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.GR;
   }
-  async _execute(paper: { question: string; body: string }) {
-    const matchCount = await this.countPerfectTense(paper.body);
+  async _execute(paper: { question: string; body: ParsedText }) {
+    const match = paper.body.match(
+      '(will|shall)? (has|have|had) #Negative? #Adverb? #Verb+',
+    );
+
+    const matchCount = match.out('array').length;
 
     if (matchCount >= 1) this.score = 2;
     else {

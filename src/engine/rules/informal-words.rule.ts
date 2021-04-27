@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { NlpService } from '../nlp.service';
+import { NlpService, ParsedText } from '../nlp.service';
 import { CRITERIA_TYPE, InlineIssue, Rule } from '../rule-engine.service';
 
 const INFORMAL_WORDS_AVOID_LIST = [
@@ -28,10 +28,8 @@ export class InformalWordsRule extends Rule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }
-  async _execute(paper: { question: string; body: string }) {
-    const doc = await this.nlpService.parse(paper.body);
-
-    const matches = doc.match(INFORMAL_WORDS_AVOID_MATCH_STRING);
+  async _execute(paper: { question: string; body: ParsedText }) {
+    const matches = paper.body.match(INFORMAL_WORDS_AVOID_MATCH_STRING);
     const matchesJson = matches.json({ offset: true });
 
     const issues: Array<InlineIssue> = matchesJson.map(
