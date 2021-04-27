@@ -23,8 +23,9 @@ export class PerfectTenseRule extends Rule {
       this.issues.push({
         id: uuid(),
         affects: this.affects,
-        message: 'You need to use perfect tense.',
-        shortMessage: 'Perfect tense',
+        message:
+          'You need to use a variety of tenses in your essay to get a higher score. Perfect tense usage (e.g. “I have done“) seems to be missing.',
+        shortMessage: 'Did you use perfect tense?',
         isInline: false,
       });
     }
