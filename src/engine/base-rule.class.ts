@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { CRITERIA_TYPE } from './criteria-type.enum';
 import { Issue } from './issue.type';
 import { ParsedText } from './nlp.service';
-import { RuleExecutionResult } from './rule-engine.class';
+import { RuleExecutionResult } from './rule-engine.service';
 
 export abstract class BaseRule {
   abstract get affects(): CRITERIA_TYPE;

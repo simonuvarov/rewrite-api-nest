@@ -2,7 +2,7 @@ import { HttpModule, Module } from '@nestjs/common';
 import { GrammarService } from './grammar.service';
 import { LanguageToolService } from './language-tool.service';
 import { NlpService } from './nlp.service';
-import { RuleEngineService } from './rule-engine.class';
+import { RuleEngineService } from './rule-engine.service';
 
 @Module({
   providers: [

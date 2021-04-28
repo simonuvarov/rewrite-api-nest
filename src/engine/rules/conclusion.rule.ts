@@ -1,7 +1,7 @@
 import nlp from 'compromise';
 import paragraphsPlugin from 'compromise-paragraphs';
 import { v4 as uuid } from 'uuid';
-import { BaseRule } from '../base-rule.entity';
+import { BaseRule } from '../base-rule.class';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
 import { ParsedText } from '../nlp.service';
 

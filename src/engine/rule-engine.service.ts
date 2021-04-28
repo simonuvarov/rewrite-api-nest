@@ -1,8 +1,8 @@
 import { Injectable, Logger, Scope } from '@nestjs/common';
+import { BaseRule } from './base-rule.class';
+import { CRITERIA_TYPE } from './criteria-type.enum';
 import { Issue } from './issue.type';
 import { NlpService } from './nlp.service';
-import { BaseRule } from './base-rule.entity';
-import { CRITERIA_TYPE } from './criteria-type.enum';
 
 export interface RuleExecutionResult {
   affects: CRITERIA_TYPE;
