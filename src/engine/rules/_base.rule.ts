@@ -1,9 +1,9 @@
 import { Logger } from '@nestjs/common';
-import { CRITERIA_TYPE } from './criteria-type.enum';
-import { GrammarCheckResult } from './grammar.service';
-import { Issue } from './issue.type';
-import { ParsedText } from './nlp.service';
-import { RuleExecutionResult } from './rule-engine.service';
+import { CRITERIA_TYPE } from '../criteria-type.enum';
+import { GrammarCheckResult } from '../grammar.service';
+import { Issue } from '../issue.type';
+import { ParsedText } from '../nlp.service';
+import { RuleExecutionResult } from '../rule-engine.service';
 
 export interface RuleProps {
   question: string;

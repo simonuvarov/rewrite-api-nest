@@ -1,5 +1,5 @@
 import { Injectable, Logger, Scope } from '@nestjs/common';
-import { BaseRule } from './base-rule.class';
+import { BaseRule } from './rules/_base.rule';
 import { CRITERIA_TYPE } from './criteria-type.enum';
 import { GrammarService } from './grammar.service';
 import { Issue } from './issue.type';

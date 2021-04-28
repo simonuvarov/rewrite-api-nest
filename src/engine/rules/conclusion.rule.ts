@@ -1,7 +1,7 @@
 import nlp from 'compromise';
 import paragraphsPlugin from 'compromise-paragraphs';
 import { v4 as uuid } from 'uuid';
-import { BaseRule, RuleProps } from '../base-rule.class';
+import { BaseRule, RuleProps } from './_base.rule';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
 
 const CONCLUSION_DEVICES = ['to conclude', 'in conclusion', 'to sum up'];

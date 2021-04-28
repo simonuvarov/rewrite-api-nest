@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule, RuleProps } from '../base-rule.class';
+import { BaseRule, RuleProps } from './_base.rule';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
 import { GrammarService, GRAMMAR_ISSUE_TYPE } from '../grammar.service';
 
