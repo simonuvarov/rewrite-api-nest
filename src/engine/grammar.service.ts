@@ -41,17 +41,57 @@ type LTMatchCategory =
   | 'FALSE_FRIENDS'
   | 'MISC';
 
-interface LTFoundMatch {
-  message: string;
-  shortMessage: string;
-  replacements: [{ value: string }];
-  offset: number;
-  length: number;
-  rule: { category: { id: LTMatchCategory; name: string } };
-}
-
 interface LTApiResponse {
-  matches: [];
+  software: {
+    name: string;
+    version: string;
+    buildDate: string;
+    apiVersion: number;
+    status: string;
+    premium: boolean;
+  };
+  language: {
+    name: string;
+    code: string;
+    detectedLanguage: {
+      name: string;
+      code: string;
+    };
+  };
+  matches: [
+    {
+      message: string;
+      shortMessage: string;
+      offset: number;
+      length: number;
+      replacements: [
+        {
+          value: string;
+        },
+      ];
+      context: {
+        text: string;
+        offset: number;
+        length: number;
+      };
+      sentence: string;
+      rule: {
+        id: string;
+        subId: string;
+        description: string;
+        urls: [
+          {
+            value: string;
+          },
+        ];
+        issueType: string;
+        category: {
+          id: LTMatchCategory;
+          name: string;
+        };
+      };
+    },
+  ];
 }
 
 @Injectable()
@@ -104,7 +144,7 @@ export class GrammarService {
 
     const issues: Array<GrammarIssue> = [];
 
-    response.matches.map((match: LTFoundMatch) => {
+    response.matches.map((match) => {
       issues.push({
         type: this.mapLTCategoryToGrammarIssueType(match.rule.category.id),
         message: match.message,
