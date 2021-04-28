@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule, RuleProps } from './_base.rule';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
 import { InlineIssue } from '../issue.type';
+import { BaseRule, RuleProps } from './_base.rule';
 
 interface RULE {
   replacements?: Array<string>;
@@ -46,7 +46,7 @@ export class EasyWordsRule extends BaseRule {
 
     this.issues.push(...issues);
 
-    if (matchesJson) this.score = 2;
+    if (matchesJson.lenght <= 2) this.score = 2;
     else {
       this.score = -2;
     }
