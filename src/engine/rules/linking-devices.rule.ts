@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
+import { BaseRule } from '../base-rule.entity';
+import { CRITERIA_TYPE } from '../criteria-type.enum';
 import { ParsedText } from '../nlp.service';
-import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 const LINKING_WORDS_LIST = [
   'accordingly',
@@ -56,7 +57,7 @@ const LINKING_WORDS_LIST = [
 
 const LINKING_WORDS_MATCH_STRING = `(${LINKING_WORDS_LIST.join('|')})`;
 
-export class LinkingDevicesRule extends Rule {
+export class LinkingDevicesRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.CC;
   }

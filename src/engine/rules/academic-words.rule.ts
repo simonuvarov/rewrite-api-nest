@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
+import { BaseRule } from '../base-rule.entity';
+import { CRITERIA_TYPE } from '../criteria-type.enum';
 import { ParsedText } from '../nlp.service';
-import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 const AWL = [
   'abandon',
@@ -577,7 +578,7 @@ const AWL = [
 
 const ACADEMIC_WORDS_MATCH_STRING = `(${AWL.join('|')})`;
 
-export class AcademicWordsRule extends Rule {
+export class AcademicWordsRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.LR;
   }

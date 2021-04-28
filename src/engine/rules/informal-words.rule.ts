@@ -1,6 +1,8 @@
 import { v4 as uuid } from 'uuid';
+import { BaseRule } from '../base-rule.entity';
+import { CRITERIA_TYPE } from '../criteria-type.enum';
+import { InlineIssue } from '../issue.type';
 import { ParsedText } from '../nlp.service';
-import { CRITERIA_TYPE, InlineIssue, Rule } from '../rule-engine.service';
 
 const INFORMAL_WORDS_AVOID_LIST = [
   'stuff',
@@ -21,7 +23,7 @@ const INFORMAL_WORDS_AVOID_MATCH_STRING = `(${INFORMAL_WORDS_AVOID_LIST.join(
   '|',
 )})`;
 
-export class InformalWordsRule extends Rule {
+export class InformalWordsRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }

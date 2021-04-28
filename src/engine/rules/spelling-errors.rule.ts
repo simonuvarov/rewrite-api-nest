@@ -1,9 +1,10 @@
 import { v4 as uuid } from 'uuid';
+import { BaseRule } from '../base-rule.entity';
+import { CRITERIA_TYPE } from '../criteria-type.enum';
 import { GrammarService, GRAMMAR_ISSUE_TYPE } from '../grammar.service';
 import { ParsedText } from '../nlp.service';
-import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
-export class SpellingErrorsRule extends Rule {
+export class SpellingErrorsRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.LR;
   }

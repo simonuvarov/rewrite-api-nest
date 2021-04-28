@@ -1,28 +1,8 @@
 import { Injectable, Logger, Scope } from '@nestjs/common';
-import { NlpService, ParsedText } from './nlp.service';
-
-export interface InlineIssue {
-  id: string;
-  message: string;
-  shortMessage: string;
-  offset: number;
-  length: number;
-  replacements?: Array<string>;
-  affects: CRITERIA_TYPE;
-  isInline: true;
-  link?: string;
-}
-
-export interface NotInlineIssue {
-  id: string;
-  message: string;
-  shortMessage: string;
-  affects: CRITERIA_TYPE;
-  isInline: false;
-  link?: string;
-}
-
-type Issue = InlineIssue | NotInlineIssue;
+import { Issue } from './issue.type';
+import { NlpService } from './nlp.service';
+import { BaseRule } from './base-rule.entity';
+import { CRITERIA_TYPE } from './criteria-type.enum';
 
 export interface RuleExecutionResult {
   affects: CRITERIA_TYPE;
@@ -31,51 +11,9 @@ export interface RuleExecutionResult {
   name: string;
 }
 
-export enum CRITERIA_TYPE {
-  TA = 'Task Achievement',
-  CC = 'Coherence and Cohesion',
-  GR = 'Grammatical Range and Accuracy',
-  LR = 'Lexical Resource',
-}
-
-export abstract class Rule {
-  abstract get affects(): CRITERIA_TYPE;
-  protected score: number;
-  protected issues: Array<Issue> = [];
-  protected readonly logger = new Logger(this.constructor.name);
-
-  public async execute(paper: {
-    question: string;
-    body: ParsedText;
-  }): Promise<RuleExecutionResult> {
-    const startTime = new Date();
-
-    await this._execute(paper);
-
-    const endTime = new Date();
-    this.logger.debug(`Finished running in ${+endTime - +startTime}ms`);
-
-    return {
-      affects: this.affects,
-      score: this.score,
-      issues: this.issues,
-      name: this.name,
-    };
-  }
-
-  get name() {
-    return this.constructor.name;
-  }
-
-  protected abstract _execute(paper: {
-    question: string;
-    body: ParsedText;
-  }): Promise<void>;
-}
-
 @Injectable({ scope: Scope.REQUEST })
 export class RuleEngineService {
-  private rules: Array<Rule>;
+  private rules: Array<BaseRule>;
   private results: Array<RuleExecutionResult>;
   private readonly logger = new Logger(RuleEngineService.name);
 
@@ -84,7 +22,7 @@ export class RuleEngineService {
     this.results = [];
   }
 
-  public setRules(rules: Array<Rule>) {
+  public setRules(rules: Array<BaseRule>) {
     this.rules = rules;
   }
 

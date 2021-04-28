@@ -1,12 +1,13 @@
 import nlp from 'compromise';
 import paragraphsPlugin from 'compromise-paragraphs';
 import { v4 as uuid } from 'uuid';
+import { BaseRule } from '../base-rule.entity';
+import { CRITERIA_TYPE } from '../criteria-type.enum';
 import { ParsedText } from '../nlp.service';
-import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 const CONCLUSION_DEVICES = ['to conclude', 'in conclusion', 'to sum up'];
 
-export class ConclusionRule extends Rule {
+export class ConclusionRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }
