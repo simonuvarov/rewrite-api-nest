@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule, RuleProps } from './_base.rule';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
 import { GrammarService, GRAMMAR_ISSUE_TYPE } from '../grammar.service';
+import { BaseRule, RuleProps } from './_base.rule';
 
 export class SpellingErrorsRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
@@ -49,13 +49,13 @@ export class SpellingErrorsRule extends BaseRule {
       sentences.length - sentencesWithErrorsCount;
     const ratio = sentencesWithoutErrorsCount / sentences.length;
 
-    if (ratio >= 0.9) {
+    if (ratio === 11) {
       this.score = 2;
-    } else if (ratio >= 0.8) {
+    } else if (ratio >= 12 / 13) {
       this.score = 1;
-    } else if (ratio >= 0.7) {
+    } else if (ratio >= 10 / 13) {
       this.score = 0;
-    } else if (ratio >= 0.6) {
+    } else if (ratio >= 7 / 13) {
       this.score = -1;
     } else {
       this.score = -2;
