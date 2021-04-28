@@ -1,9 +1,9 @@
 import { Injectable, Logger, Scope } from '@nestjs/common';
-import { BaseRule } from './rules/_base.rule';
 import { CRITERIA_TYPE } from './criteria-type.enum';
 import { GrammarService } from './grammar.service';
 import { Issue } from './issue.type';
 import { NlpService } from './nlp.service';
+import { BaseRule } from './rules/_base.rule';
 
 export interface RuleExecutionResult {
   affects: CRITERIA_TYPE;
@@ -50,7 +50,10 @@ export class RuleEngineService {
     const relevantResults = this.results.filter((r) => r.affects === criteria);
     if (relevantResults.length === 0) return 0;
 
-    const score = relevantResults.reduce((score, r) => score + r.score, 0);
+    const score = relevantResults.reduce((score, r) => {
+      this.logger.debug(`${r.name}: ${r.score}`);
+      return score + r.score;
+    }, 0);
 
     const ruleCount = this.rules.filter((r) => r.affects === criteria).length;
 
