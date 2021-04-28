@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   LanguageToolService,
   LTApiResponse,
@@ -26,6 +26,8 @@ export type GrammarCheckResult = Array<GrammarIssue>;
 
 @Injectable()
 export class GrammarService {
+  private readonly logger = new Logger(this.constructor.name);
+
   constructor(private languageToolService: LanguageToolService) {}
 
   async check(text: string): Promise<GrammarCheckResult> {
@@ -73,7 +75,10 @@ export class GrammarService {
       issues.push({
         type: this.mapLTCategoryToGrammarIssueType(match.rule.category.id),
         message: match.message,
-        shortMessage: match.shortMessage,
+        shortMessage:
+          match.shortMessage.length > 0
+            ? match.shortMessage
+            : match.rule.description,
         offset: match.offset,
         length: match.length,
         replacements: match.replacements.map((r) => r.value),
