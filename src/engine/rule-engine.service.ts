@@ -1,6 +1,7 @@
 import { Injectable, Logger, Scope } from '@nestjs/common';
 import { BaseRule } from './base-rule.class';
 import { CRITERIA_TYPE } from './criteria-type.enum';
+import { GrammarService } from './grammar.service';
 import { Issue } from './issue.type';
 import { NlpService } from './nlp.service';
 
@@ -17,7 +18,10 @@ export class RuleEngineService {
   private results: Array<RuleExecutionResult>;
   private readonly logger = new Logger(RuleEngineService.name);
 
-  constructor(private nlpService: NlpService) {
+  constructor(
+    private nlpService: NlpService,
+    private grammarService: GrammarService,
+  ) {
     this.rules = [];
     this.results = [];
   }
@@ -98,10 +102,15 @@ export class RuleEngineService {
     const startTime = new Date();
 
     const parsedBody = await this.nlpService.parse(paper.body);
+    const grammarCheckResult = await this.grammarService.check(paper.body);
 
     this.results = await Promise.all(
       this.rules.map((rule) =>
-        rule.execute({ question: paper.question, body: parsedBody }),
+        rule.execute({
+          question: paper.question,
+          parsedBody,
+          grammarCheckResult,
+        }),
       ),
     );
     const endTime = new Date();

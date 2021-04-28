@@ -1,14 +1,13 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule } from '../base-rule.class';
+import { BaseRule, RuleProps } from '../base-rule.class';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
-import { ParsedText } from '../nlp.service';
 
 export class WordCountRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }
-  async _execute(paper: { question: string; body: ParsedText }) {
-    const wordCount = paper.body.wordCount();
+  async _execute(props: RuleProps) {
+    const wordCount = props.parsedBody.wordCount();
 
     if (wordCount >= 250 && wordCount <= 350) {
       this.score = 2;

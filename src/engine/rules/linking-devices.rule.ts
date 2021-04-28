@@ -1,7 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule } from '../base-rule.class';
+import { BaseRule, RuleProps } from '../base-rule.class';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
-import { ParsedText } from '../nlp.service';
 
 const LINKING_WORDS_LIST = [
   'accordingly',
@@ -61,8 +60,8 @@ export class LinkingDevicesRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.CC;
   }
-  async _execute(paper: { question: string; body: ParsedText }) {
-    const matches = paper.body.match(LINKING_WORDS_MATCH_STRING);
+  async _execute(props: RuleProps) {
+    const matches = props.parsedBody.match(LINKING_WORDS_MATCH_STRING);
     const matchCount = matches.out('array').length;
 
     if (matchCount > 2) this.score = 2;

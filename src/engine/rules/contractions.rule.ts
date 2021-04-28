@@ -1,14 +1,13 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule } from '../base-rule.class';
+import { BaseRule, RuleProps } from '../base-rule.class';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
-import { ParsedText } from '../nlp.service';
 
 export class ContractionsRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }
-  async _execute(paper: { question: string; body: ParsedText }) {
-    const contractions = paper.body.contractions();
+  async _execute(props: RuleProps) {
+    const contractions = props.parsedBody.contractions();
 
     contractions.forEach((c) => {
       this.issues.push({

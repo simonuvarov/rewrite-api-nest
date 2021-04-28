@@ -1,14 +1,13 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule } from '../base-rule.class';
+import { BaseRule, RuleProps } from '../base-rule.class';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
-import { ParsedText } from '../nlp.service';
 
 export class PerfectTenseRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.GR;
   }
-  async _execute(paper: { question: string; body: ParsedText }) {
-    const match = paper.body.match(
+  async _execute(props: RuleProps) {
+    const match = props.parsedBody.match(
       '(will|shall)? (has|have|had) #Negative? #Adverb? #Verb+',
     );
 

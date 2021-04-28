@@ -1,8 +1,7 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule } from '../base-rule.class';
+import { BaseRule, RuleProps } from '../base-rule.class';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
 import { GrammarService, GRAMMAR_ISSUE_TYPE } from '../grammar.service';
-import { ParsedText } from '../nlp.service';
 
 export class SpellingErrorsRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
@@ -16,11 +15,11 @@ export class SpellingErrorsRule extends BaseRule {
     return text.indexOf(sentence);
   }
 
-  async _execute(paper: { question: string; body: ParsedText }) {
-    const sentences = paper.body.sentences().out('array');
+  async _execute(props: RuleProps) {
+    const sentences = props.parsedBody.sentences().out('array');
 
     // TODO: extract to rule engine
-    const foundIssues = await this.grammarService.check(paper.body.text());
+    const foundIssues = props.grammarCheckResult;
     const spellingIssues = foundIssues.filter(
       (issue) => issue.type === GRAMMAR_ISSUE_TYPE.SPELLING,
     );
@@ -28,7 +27,10 @@ export class SpellingErrorsRule extends BaseRule {
     let sentencesWithErrorsCount = 0;
 
     sentences.forEach((sentence) => {
-      const offset = this.calculateSentenceOffset(sentence, paper.body.text());
+      const offset = this.calculateSentenceOffset(
+        sentence,
+        props.parsedBody.text(),
+      );
       const length = sentence.length;
       const sentenceEnd = offset + length;
 

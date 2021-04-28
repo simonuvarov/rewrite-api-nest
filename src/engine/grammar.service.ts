@@ -22,7 +22,7 @@ export type GrammarIssue = {
   link?: string;
 };
 
-type GrammarCheckResult = Array<GrammarIssue>;
+export type GrammarCheckResult = Array<GrammarIssue>;
 
 @Injectable()
 export class GrammarService {

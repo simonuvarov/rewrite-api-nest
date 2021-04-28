@@ -1,8 +1,7 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule } from '../base-rule.class';
+import { BaseRule, RuleProps } from '../base-rule.class';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
 import { InlineIssue } from '../issue.type';
-import { ParsedText } from '../nlp.service';
 
 const INFORMAL_WORDS_AVOID_LIST = [
   'stuff',
@@ -27,8 +26,8 @@ export class InformalWordsRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }
-  async _execute(paper: { question: string; body: ParsedText }) {
-    const matches = paper.body.match(INFORMAL_WORDS_AVOID_MATCH_STRING);
+  async _execute(props: RuleProps) {
+    const matches = props.parsedBody.match(INFORMAL_WORDS_AVOID_MATCH_STRING);
     const matchesJson = matches.json({ offset: true });
 
     const issues: Array<InlineIssue> = matchesJson.map(

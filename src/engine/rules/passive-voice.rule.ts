@@ -1,15 +1,14 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule } from '../base-rule.class';
+import { BaseRule, RuleProps } from '../base-rule.class';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
-import { ParsedText } from '../nlp.service';
 
 export class PassiveVoiceRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.GR;
   }
 
-  async _execute(paper: { question: string; body: ParsedText }) {
-    const match = paper.body.match('#Verb * #Participle');
+  async _execute(props: RuleProps) {
+    const match = props.parsedBody.match('#Verb * #Participle');
     const matchCount = match.out('array').length;
 
     if (matchCount >= 1) this.score = 2;

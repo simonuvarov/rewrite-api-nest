@@ -1,15 +1,16 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule } from '../base-rule.class';
+import { BaseRule, RuleProps } from '../base-rule.class';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
-import { ParsedText } from '../nlp.service';
 
 export class ParagraphCountRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.CC;
   }
-  async _execute(paper: { question: string; body: ParsedText }) {
-    const paragraphCount = paper.body.text().replace(/\n$/gm, '').split(/\n/)
-      .length;
+  async _execute(props: RuleProps) {
+    const paragraphCount = props.parsedBody
+      .text()
+      .replace(/\n$/gm, '')
+      .split(/\n/).length;
 
     if (paragraphCount >= 4 && paragraphCount <= 5) {
       this.score = 2;
