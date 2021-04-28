@@ -11,11 +11,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/identity/jwt-auth.guard';
-import { CreatePaperDto } from './dto/create-paper.dto';
-import { UpdatePaperDto } from './dto/update-paper.dto';
 import { GrammarService } from '../engine/grammar.service';
 import { NlpService } from '../engine/nlp.service';
-import { PapersService } from './papers.service';
 import { RuleEngineService } from '../engine/rule-engine.service';
 import { AcademicWordsRule } from '../engine/rules/academic-words.rule';
 import { ConclusionRule } from '../engine/rules/conclusion.rule';
@@ -28,6 +25,9 @@ import { PassiveVoiceRule } from '../engine/rules/passive-voice.rule';
 import { PerfectTenseRule } from '../engine/rules/perfect-tense.rule';
 import { SpellingErrorsRule } from '../engine/rules/spelling-errors.rule';
 import { WordCountRule } from '../engine/rules/word-count.rule';
+import { CreatePaperDto } from './dto/create-paper.dto';
+import { UpdatePaperDto } from './dto/update-paper.dto';
+import { PapersService } from './papers.service';
 
 @Controller('papers')
 export class PapersController {
@@ -38,17 +38,17 @@ export class PapersController {
     private nlpService: NlpService,
   ) {
     this.engine.setRules([
-      new ErrorFreeSentecesRule(this.grammarService, this.nlpService),
+      new ErrorFreeSentecesRule(this.grammarService),
       new ConclusionRule(),
-      new WordCountRule(this.nlpService),
+      new WordCountRule(),
       new ParagraphCountRule(),
-      new LinkingDevicesRule(this.nlpService),
-      new PassiveVoiceRule(this.nlpService),
-      new PerfectTenseRule(this.nlpService),
-      new SpellingErrorsRule(this.grammarService, this.nlpService),
-      new AcademicWordsRule(this.nlpService),
-      new InformalWordsRule(this.nlpService),
-      new ContractionsRule(this.nlpService),
+      new LinkingDevicesRule(),
+      new PassiveVoiceRule(),
+      new PerfectTenseRule(),
+      new SpellingErrorsRule(this.grammarService),
+      new AcademicWordsRule(),
+      new InformalWordsRule(),
+      new ContractionsRule(),
     ]);
   }
 

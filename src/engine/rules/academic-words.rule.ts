@@ -1,6 +1,5 @@
-import { Inject } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
-import { NlpService, ParsedText } from '../nlp.service';
+import { ParsedText } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 const AWL = [
@@ -579,9 +578,6 @@ const AWL = [
 const ACADEMIC_WORDS_MATCH_STRING = `(${AWL.join('|')})`;
 
 export class AcademicWordsRule extends Rule {
-  constructor(@Inject() private nlpService: NlpService) {
-    super();
-  }
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.LR;
   }

@@ -1,16 +1,13 @@
 import { v4 as uuid } from 'uuid';
 import { GrammarService, GRAMMAR_ISSUE_TYPE } from '../grammar.service';
-import { NlpService, ParsedText } from '../nlp.service';
+import { ParsedText } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 export class SpellingErrorsRule extends Rule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.LR;
   }
-  constructor(
-    private grammarService: GrammarService,
-    private nlpService: NlpService,
-  ) {
+  constructor(private grammarService: GrammarService) {
     super();
   }
 

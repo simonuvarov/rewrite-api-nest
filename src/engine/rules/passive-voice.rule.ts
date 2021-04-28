@@ -1,12 +1,8 @@
 import { v4 as uuid } from 'uuid';
-import { NlpService, ParsedText } from '../nlp.service';
+import { ParsedText } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 export class PassiveVoiceRule extends Rule {
-  constructor(private nlpService: NlpService) {
-    super();
-  }
-
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.GR;
   }

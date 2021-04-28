@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { NlpService, ParsedText } from '../nlp.service';
+import { ParsedText } from '../nlp.service';
 import { CRITERIA_TYPE, InlineIssue, Rule } from '../rule-engine.service';
 
 const INFORMAL_WORDS_AVOID_LIST = [
@@ -22,9 +22,6 @@ const INFORMAL_WORDS_AVOID_MATCH_STRING = `(${INFORMAL_WORDS_AVOID_LIST.join(
 )})`;
 
 export class InformalWordsRule extends Rule {
-  constructor(private nlpService: NlpService) {
-    super();
-  }
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }

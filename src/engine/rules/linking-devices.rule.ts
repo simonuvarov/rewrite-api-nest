@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { NlpService, ParsedText } from '../nlp.service';
+import { ParsedText } from '../nlp.service';
 import { CRITERIA_TYPE, Rule } from '../rule-engine.service';
 
 const LINKING_WORDS_LIST = [
@@ -57,10 +57,6 @@ const LINKING_WORDS_LIST = [
 const LINKING_WORDS_MATCH_STRING = `(${LINKING_WORDS_LIST.join('|')})`;
 
 export class LinkingDevicesRule extends Rule {
-  constructor(private nlpService: NlpService) {
-    super();
-  }
-
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.CC;
   }
