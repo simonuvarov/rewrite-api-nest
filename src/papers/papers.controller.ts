@@ -18,7 +18,7 @@ import { RuleEngineService } from '../engine/rule-engine.service';
 import { AcademicWordsRule } from '../engine/rules/academic-words.rule';
 import { ConclusionRule } from '../engine/rules/conclusion.rule';
 import { ContractionsRule } from '../engine/rules/contractions.rule';
-import { ErrorFreeSentecesRule } from '../engine/rules/error-free-sentences.rule';
+import { GrammarErrorsRule } from '../engine/rules/grammar-errors.rule';
 import { InformalWordsRule } from '../engine/rules/informal-words.rule';
 import { LinkingDevicesRule } from '../engine/rules/linking-devices.rule';
 import { ParagraphCountRule } from '../engine/rules/paragraph-count.rule';
@@ -39,7 +39,7 @@ export class PapersController {
     private nlpService: NlpService,
   ) {
     this.engine.setRules([
-      new ErrorFreeSentecesRule(this.grammarService),
+      new GrammarErrorsRule(this.grammarService),
       new ConclusionRule(),
       new WordCountRule(),
       new ParagraphCountRule(),
