@@ -13,9 +13,11 @@ export class PerfectTenseRule extends BaseRule {
 
     const matchCount = match.out('array').length;
 
-    if (matchCount >= 1) this.score = 2;
-    else {
-      this.score = -2;
+    if (matchCount >= 2) this.score = 2;
+    if (matchCount === 1) this.score = 1;
+    else this.score = -2;
+
+    if (this.score !== 2)
       this.issues.push({
         id: uuid(),
         affects: this.affects,
@@ -24,6 +26,5 @@ export class PerfectTenseRule extends BaseRule {
         shortMessage: 'Did you use perfect tense?',
         isInline: false,
       });
-    }
   }
 }
