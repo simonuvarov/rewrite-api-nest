@@ -10,6 +10,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { EasyWordsRule } from 'src/engine/rules/easy-words.rule';
 import { JwtAuthGuard } from 'src/identity/jwt-auth.guard';
 import { GrammarService } from '../engine/grammar.service';
 import { NlpService } from '../engine/nlp.service';
@@ -49,6 +50,7 @@ export class PapersController {
       new AcademicWordsRule(),
       new InformalWordsRule(),
       new ContractionsRule(),
+      new EasyWordsRule(),
     ]);
   }
 
