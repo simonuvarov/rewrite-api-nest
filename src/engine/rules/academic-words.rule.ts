@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule, RuleProps } from './_base.rule';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
+import { BaseRule, RuleProps } from './_base.rule';
 
 const AWL = [
   'abandon',
@@ -585,9 +585,12 @@ export class AcademicWordsRule extends BaseRule {
     const matches = props.parsedBody.match(ACADEMIC_WORDS_MATCH_STRING);
     const matchCount = matches.out('array').length;
 
-    if (matchCount > 2) this.score = 2;
-    else {
-      this.score = -2;
+    if (matchCount >= 15) this.score = 2;
+    else if (matchCount >= 12) this.score = 1;
+    else if (matchCount >= 8) this.score = 0;
+    else if (matchCount >= 4) this.score = 1;
+    else this.score = -2;
+    if (this.score !== 2) {
       this.issues.push({
         id: uuid(),
         affects: this.affects,
