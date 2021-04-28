@@ -19,6 +19,7 @@ export type GrammarIssue = {
   offset: number;
   length: number;
   replacements: Array<string>;
+  link?: string;
 };
 
 type GrammarCheckResult = Array<GrammarIssue>;
@@ -76,6 +77,7 @@ export class GrammarService {
         offset: match.offset,
         length: match.length,
         replacements: match.replacements.map((r) => r.value),
+        link: match.rule.urls ? match.rule.urls[0].value : undefined,
       });
     });
 
