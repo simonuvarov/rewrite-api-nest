@@ -8,31 +8,36 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { TokenService } from './auth.service';
 import { UserCredentialsDto } from './dto/user-credentials';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { PasswordService } from './password.service';
 import { UsersService } from './users.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly authService: AuthService,
+    private readonly tokenService: TokenService,
     private userService: UsersService,
+    private passwordService: PasswordService,
   ) {}
 
   @Post('/signin')
   @HttpCode(200)
   async signin(@Body() userCredentialsDto: UserCredentialsDto) {
-    const user = await this.authService.findUserByCredentials(
-      userCredentialsDto,
+    const user = await this.userService.findByEmail(userCredentialsDto.email);
+    if (!user)
+      throw new UnauthorizedException('User with this email is not registered');
+
+    const isMatch = await this.passwordService.validatePassword(
+      userCredentialsDto.password,
+      user.hash,
     );
-    if (user) {
-      const tokens = await this.authService.generateTokens(user);
-      return tokens;
-    } else
-      throw new UnauthorizedException(
-        'User not found or the password is wrong',
-      );
+
+    if (!isMatch) throw new UnauthorizedException('Password is incorrect');
+
+    const tokens = await this.tokenService.generateTokens(user);
+    return tokens;
   }
 
   @Post('/signup')
@@ -41,9 +46,9 @@ export class AuthController {
       userCredentialsDto.email,
     );
     if (userAlreadyExists)
-      throw new ConflictException('This email adress is alrady taken');
+      throw new ConflictException('This email address is already taken');
     const user = await this.userService.create(userCredentialsDto);
-    return this.authService.generateTokens(user);
+    return this.tokenService.generateTokens(user);
   }
 
   @UseGuards(JwtAuthGuard)
