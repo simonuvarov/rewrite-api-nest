@@ -1,5 +1,5 @@
 import { HttpService, Injectable } from '@nestjs/common';
-import formurlencoded from 'form-urlencoded';
+import qs from 'qs';
 
 export type LTMatchCategory =
   | 'CASING'
@@ -80,7 +80,7 @@ export class LanguageToolService {
     const result = await this.httpService
       .post<LTApiResponse>(
         `${process.env.LT_URL}/v2/check`,
-        formurlencoded({ text: text, language: 'en-US' }),
+        qs.stringify({ text: text, language: 'en-US' }),
       )
       .toPromise();
 
