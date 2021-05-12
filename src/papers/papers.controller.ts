@@ -66,6 +66,9 @@ export class PapersController {
   async findAll(@Request() req: any) {
     const userId = req.user.id;
     return await this.papersService.findAll({
+      orderBy: {
+        updatedAt: 'desc',
+      },
       where: {
         authorId: userId,
         OR: {
