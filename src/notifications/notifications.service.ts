@@ -13,15 +13,21 @@ export class NotificationsService {
 
   @OnEvent('user.created')
   async handleUserCreated(payload: UserCreatedEvent) {
+    const token = this.userService.generateEmailVerificationToken({
+      email: payload.email,
+      uid: payload.id,
+    });
+
+    const host =
+      process.env.NODE_ENV === 'production' ? 'tryrewrite.com' : 'localhost';
+
+    const link = `https://${host}/api/users/email/verify/${token}`;
+
     await this.emailService.sendEmail({
       to: payload.email,
       from: 'noreply@tryrewrite.com',
-      subject: 'User created event',
-      text: `User with id: ${payload.id} with email: ${
-        payload.email
-      } has been created. Here's your confirmation token: ${this.userService.generateEmailVerificationToken(
-        { email: payload.email, uid: payload.id },
-      )}`,
+      subject: 'Confirmation email',
+      text: `Here's your confirmation link ${link}`,
     });
   }
 }
