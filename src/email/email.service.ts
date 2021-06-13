@@ -8,6 +8,13 @@ interface SendEmailProps {
   text: string;
 }
 
+interface SendEmailTemplateProps {
+  from: string;
+  to: string;
+  templateAlias: string;
+  variables: { [id: string]: string };
+}
+
 @Injectable()
 export class EmailService {
   private client: Client;
@@ -21,6 +28,15 @@ export class EmailService {
       From: props.from,
       Subject: props.subject,
       TextBody: props.text,
+    });
+  }
+
+  async sendEmailTemplate(props: SendEmailTemplateProps) {
+    await this.client.sendEmailWithTemplate({
+      To: props.to,
+      From: props.from,
+      TemplateAlias: props.templateAlias,
+      TemplateModel: props.variables,
     });
   }
 }

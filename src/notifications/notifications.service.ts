@@ -18,16 +18,13 @@ export class NotificationsService {
       uid: payload.id,
     });
 
-    const host =
-      process.env.NODE_ENV === 'production' ? 'tryrewrite.com' : 'localhost';
+    const link = `https://tryrewrite.com/api/users/email/verify/${token}`;
 
-    const link = `https://${host}/api/users/email/verify/${token}`;
-
-    await this.emailService.sendEmail({
+    await this.emailService.sendEmailTemplate({
+      templateAlias: 'email-confirmation',
       to: payload.email,
-      from: 'noreply@tryrewrite.com',
-      subject: 'Confirmation email',
-      text: `Here's your confirmation link ${link}`,
+      from: 'Rewrite <notify@tryrewrite.com>',
+      variables: { link },
     });
   }
 }
