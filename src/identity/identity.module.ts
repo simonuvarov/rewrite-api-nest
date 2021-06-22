@@ -8,6 +8,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { LocalAuthGuard } from './local-auth.guard';
 import { LocalAuthStrategy } from './local-auth.strategy';
 import { PasswordService } from './password.service';
+import { SessionGuard } from './session.guard';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -22,6 +23,7 @@ import { UsersService } from './users.service';
     JwtAuthGuard,
     LocalAuthStrategy,
     LocalAuthGuard,
+    SessionGuard,
   ],
   imports: [JwtModule.register({ secret: 'hard!to-guess_secret' })],
   exports: [JwtAuthGuard, UsersService],

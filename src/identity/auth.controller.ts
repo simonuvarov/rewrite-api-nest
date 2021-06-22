@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Post,
+  Session,
   UseGuards,
 } from '@nestjs/common';
 import { TokenService } from './auth.service';
@@ -25,10 +26,14 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('/signin')
   @HttpCode(200)
-  async signin(@Body() userCredentialsDto: UserCredentialsDto) {
+  async signin(
+    @Body() userCredentialsDto: UserCredentialsDto,
+    @Session() session: Record<string, any>,
+  ) {
     const user = await this.userService.findByEmail(userCredentialsDto.email);
 
     const tokens = await this.tokenService.generateTokens(user);
+    session.uid = user.id;
     return tokens;
   }
 

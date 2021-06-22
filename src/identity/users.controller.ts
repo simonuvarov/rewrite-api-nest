@@ -5,20 +5,21 @@ import {
   HttpCode,
   Param,
   Request,
+  Session,
   UseGuards,
 } from '@nestjs/common';
 import { isJWT } from 'class-validator';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { SessionGuard } from './session.guard';
 import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(SessionGuard)
   @Get('/me')
-  me(@Request() req: any) {
-    return this.usersService.findOne(req.user.id);
+  me(@Request() req: any, @Session() session: Record<string, any>) {
+    return this.usersService.findOne(session.uid);
   }
 
   @Get('/email/verify/:token')
