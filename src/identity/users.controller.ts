@@ -5,7 +5,6 @@ import {
   HttpCode,
   Param,
   Request,
-  Session,
   UseGuards,
 } from '@nestjs/common';
 import { isJWT } from 'class-validator';
@@ -18,8 +17,8 @@ export class UsersController {
 
   @UseGuards(SessionGuard)
   @Get('/me')
-  me(@Request() req: any, @Session() session: Record<string, any>) {
-    return this.usersService.findOne(session.uid);
+  me(@Request() req: any) {
+    return req.user;
   }
 
   @Get('/email/verify/:token')
