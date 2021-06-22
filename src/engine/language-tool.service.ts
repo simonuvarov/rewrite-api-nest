@@ -77,6 +77,7 @@ export class LanguageToolService {
   constructor(private httpService: HttpService) {}
 
   async check(text: string): Promise<LTApiResponse> {
+    // TODO: read url from config service
     const result = await this.httpService
       .post<LTApiResponse>(
         `${process.env.LT_URL}/v2/check`,

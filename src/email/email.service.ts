@@ -19,6 +19,7 @@ interface SendEmailTemplateProps {
 export class EmailService {
   private client: Client;
   constructor() {
+    // TODO: read from config service
     this.client = new Client(process.env.POSTMARK_API_KEY);
   }
 

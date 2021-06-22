@@ -24,7 +24,7 @@ async function bootstrap() {
   app.use(
     session({
       store: new RedisStore({ client: redisClient }),
-      secret: process.env.SECRET,
+      secret: configService.get('SESSION_SECRET'),
       name: 'session',
       resave: false,
       saveUninitialized: false,
@@ -32,10 +32,10 @@ async function bootstrap() {
       cookie: {
         httpOnly: true,
         maxAge: 1000 * 60 * 10, // 10 mins TODO: get value from env
-        secure: process.env.NODE_ENV === 'production' ? true : false,
+        secure: configService.get('NODE_ENV') === 'production' ? true : false,
       },
     }),
   );
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(configService.get('PORT') || 3000);
 }
 bootstrap();

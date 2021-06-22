@@ -15,10 +15,12 @@ import { PapersModule } from './papers/papers.module';
     //TODO: extract into separate module
     ConfigModule.forRoot({
       validationSchema: Joi.object({
+        NODE_ENV: Joi.string().valid('production', 'development'),
+        PORT: Joi.number(),
         DATABASE_URL: Joi.string()
           .regex(/postgresql:\/\//)
           .required(),
-        SECRET: Joi.string().required(),
+        SESSION_SECRET: Joi.string().required(),
         LT_URL: Joi.string()
           .regex(/https?:\/\//)
           .required(),
