@@ -18,7 +18,7 @@ import { PapersModule } from './papers/papers.module';
         NODE_ENV: Joi.string().valid('production', 'development'),
         PORT: Joi.number(),
         DATABASE_URL: Joi.string()
-          .regex(/postgresql:\/\//)
+          .regex(/postgres:\/\//)
           .required(),
         SESSION_SECRET: Joi.string().required(),
         LT_URL: Joi.string()
