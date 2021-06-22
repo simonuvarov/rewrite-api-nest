@@ -6,6 +6,7 @@ import { LocalAuthGuard } from './local-auth.guard';
 import { LocalAuthStrategy } from './local-auth.strategy';
 import { PasswordService } from './password.service';
 import { SessionGuard } from './session.guard';
+import { SessionSerializer } from './session.serializer';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -18,6 +19,7 @@ import { UsersService } from './users.service';
     LocalAuthStrategy,
     LocalAuthGuard,
     SessionGuard,
+    SessionSerializer,
   ],
   imports: [JwtModule.register({ secret: 'hard!to-guess_secret' })],
   exports: [UsersService],

@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import createRedisStore from 'connect-redis';
 import session from 'express-session';
+import passport from 'passport';
 import { createClient } from 'redis';
 import { AppModule } from './app.module';
 
@@ -20,7 +21,6 @@ async function bootstrap() {
     url: configService.get('REDIS_URL'),
   });
 
-  app.enableCors();
   app.use(
     session({
       store: new RedisStore({ client: redisClient }),
@@ -36,6 +36,10 @@ async function bootstrap() {
       },
     }),
   );
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
   await app.listen(configService.get('PORT') || 3000);
 }
 bootstrap();

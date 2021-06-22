@@ -5,7 +5,6 @@ import {} from '@nestjs/passport';
 export class SessionGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    //TODO: console.log(request.isAuthenticated());
     return !!request.session.uid;
   }
 }
