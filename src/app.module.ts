@@ -23,6 +23,7 @@ import { PapersModule } from './papers/papers.module';
           .regex(/https?:\/\//)
           .required(),
         POSTMARK_API_KEY: Joi.string().required(),
+        REDIS_URL: Joi.string().required(),
       }),
     }),
   ],
