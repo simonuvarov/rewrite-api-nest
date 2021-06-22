@@ -7,11 +7,11 @@ import {
   Param,
   Post,
   Put,
-  Request,
+  Session,
   UseGuards,
 } from '@nestjs/common';
 import { EasyWordsRule } from 'src/engine/rules/easy-words.rule';
-import { JwtAuthGuard } from 'src/identity/jwt-auth.guard';
+import { SessionGuard } from 'src/identity/session.guard';
 import { GrammarService } from '../engine/grammar.service';
 import { NlpService } from '../engine/nlp.service';
 import { RuleEngineService } from '../engine/rule-engine.service';
@@ -54,17 +54,17 @@ export class PapersController {
     ]);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(SessionGuard)
   @Post()
-  create(@Body() createPaperDto: CreatePaperDto, @Request() req: any) {
-    const userId = req.user.id;
+  create(@Body() createPaperDto: CreatePaperDto, @Session() session: any) {
+    const userId = session.uid;
     return this.papersService.createPaper(createPaperDto, userId);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(SessionGuard)
   @Get()
-  async findAll(@Request() req: any) {
-    const userId = req.user.id;
+  async findAll(@Session() session: any) {
+    const userId = session.uid;
     return await this.papersService.findAll({
       orderBy: {
         updatedAt: 'desc',
@@ -81,10 +81,10 @@ export class PapersController {
     });
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(SessionGuard)
   @Get(':id')
-  async findOne(@Param('id') id: string, @Request() req: any) {
-    const userId = req.user.id;
+  async findOne(@Param('id') id: string, @Session() session: any) {
+    const userId = session.uid;
 
     const paper = await this.papersService.findPaperById(id);
     if (paper && paper.authorId === userId)
@@ -93,14 +93,14 @@ export class PapersController {
     throw new NotFoundException();
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(SessionGuard)
   @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updatePaperDto: UpdatePaperDto,
-    @Request() req: any,
+    @Session() session: any,
   ) {
-    const userId = req.user.id;
+    const userId = session.uid;
     const paper = await this.papersService.findPaperById(id);
 
     if (paper && paper.authorId === userId) {
@@ -123,10 +123,10 @@ export class PapersController {
     throw new NotFoundException();
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(SessionGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string, @Request() req: any) {
-    const userId = req.user.id;
+  async remove(@Param('id') id: string, @Session() session: any) {
+    const userId = session.uid;
 
     const paper = await this.papersService.findPaperById(id);
     if (paper && paper.authorId === userId)
