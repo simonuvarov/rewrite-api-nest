@@ -5,12 +5,12 @@ import {
   Get,
   HttpCode,
   Post,
-  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { TokenService } from './auth.service';
 import { UserCredentialsDto } from './dto/user-credentials';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { LocalAuthGuard } from './local-auth.guard';
 import { PasswordService } from './password.service';
 import { UsersService } from './users.service';
 
@@ -22,19 +22,11 @@ export class AuthController {
     private passwordService: PasswordService,
   ) {}
 
+  @UseGuards(LocalAuthGuard)
   @Post('/signin')
   @HttpCode(200)
   async signin(@Body() userCredentialsDto: UserCredentialsDto) {
     const user = await this.userService.findByEmail(userCredentialsDto.email);
-    if (!user)
-      throw new UnauthorizedException('User with this email is not registered');
-
-    const isMatch = await this.passwordService.validatePassword(
-      userCredentialsDto.password,
-      user.hash,
-    );
-
-    if (!isMatch) throw new UnauthorizedException('Password is incorrect');
 
     const tokens = await this.tokenService.generateTokens(user);
     return tokens;
