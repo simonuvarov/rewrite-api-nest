@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import createRedisStore from 'connect-redis';
 import session from 'express-session';
+import ms from 'ms';
 import passport from 'passport';
 import { createClient } from 'redis';
 import { AppModule } from './app.module';
@@ -21,6 +22,8 @@ async function bootstrap() {
     url: configService.get('REDIS_URL'),
   });
 
+  const isProduction = configService.get('NODE_ENV') === 'production';
+
   app.use(
     session({
       store: new RedisStore({ client: redisClient }),
@@ -31,8 +34,8 @@ async function bootstrap() {
       rolling: true,
       cookie: {
         httpOnly: true,
-        maxAge: 1000 * 60 * 10, // 10 mins TODO: get value from env
-        secure: configService.get('NODE_ENV') === 'production' ? true : false,
+        maxAge: isProduction ? ms('30d') : ms('1h'),
+        secure: isProduction ? true : false,
       },
     }),
   );
