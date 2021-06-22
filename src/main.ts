@@ -9,13 +9,15 @@ async function bootstrap() {
   app.enableCors();
   app.use(
     session({
-      secret: 'my-secret',
+      secret: process.env.SECRET,
+      name: 'session',
       resave: false,
       saveUninitialized: false,
       rolling: true,
       cookie: {
         httpOnly: true,
-        maxAge: 1000 * 60 * 10, // 10 mins
+        maxAge: 1000 * 60 * 10, // 10 mins TODO: get value from env
+        secure: process.env.NODE_ENV === 'production' ? true : false,
       },
     }),
   );
