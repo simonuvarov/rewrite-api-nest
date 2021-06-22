@@ -15,7 +15,7 @@ async function bootstrap() {
       rolling: true,
       cookie: {
         httpOnly: true,
-        maxAge: 1000 * 10,
+        maxAge: 1000 * 60 * 10, // 10 mins
       },
     }),
   );
