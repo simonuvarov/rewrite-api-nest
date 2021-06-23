@@ -4,11 +4,13 @@ import {
   Controller,
   HttpCode,
   Post,
-  Session,
+  Req,
   UseGuards,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { UserCredentialsDto } from './dto/user-credentials';
 import { LocalAuthGuard } from './local-auth.guard';
+import { SessionGuard } from './session.guard';
 import { UsersService } from './users.service';
 
 @Controller('auth')
@@ -18,13 +20,9 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('/signin')
   @HttpCode(204)
-  async signin(
-    @Body() userCredentialsDto: UserCredentialsDto,
-    @Session() session: Record<string, any>,
-  ) {
-    const user = await this.userService.findByEmail(userCredentialsDto.email);
-
-    session.uid = user.id;
+  async signin() {
+    // All work here is done by auth strategy and auth guard
+    return;
   }
 
   @Post('/signup')
@@ -37,5 +35,12 @@ export class AuthController {
       throw new ConflictException('This email address is already taken');
     await this.userService.create(userCredentialsDto);
     return;
+  }
+
+  @Post('/signout')
+  @UseGuards(SessionGuard)
+  @HttpCode(204)
+  async signout(@Req() req: Request) {
+    req.logout();
   }
 }

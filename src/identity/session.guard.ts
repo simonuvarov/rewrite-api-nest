@@ -5,6 +5,8 @@ import {} from '@nestjs/passport';
 export class SessionGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    return !!request.session.uid;
+
+    // req.signout() in /signout removes user from redis
+    return !!request.user;
   }
 }
