@@ -7,7 +7,7 @@ import {
   Param,
   Post,
   Put,
-  Session,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { EasyWordsRule } from 'src/engine/rules/easy-words.rule';
@@ -56,15 +56,15 @@ export class PapersController {
 
   @UseGuards(SessionGuard)
   @Post()
-  create(@Body() createPaperDto: CreatePaperDto, @Session() session: any) {
-    const userId = session.uid;
+  create(@Body() createPaperDto: CreatePaperDto, @Req() req: any) {
+    const userId = req.user.id;
     return this.papersService.createPaper(createPaperDto, userId);
   }
 
   @UseGuards(SessionGuard)
   @Get()
-  async findAll(@Session() session: any) {
-    const userId = session.uid;
+  async findAll(@Req() req: any) {
+    const userId = req.user.id;
     return await this.papersService.findAll({
       orderBy: {
         updatedAt: 'desc',
@@ -83,8 +83,8 @@ export class PapersController {
 
   @UseGuards(SessionGuard)
   @Get(':id')
-  async findOne(@Param('id') id: string, @Session() session: any) {
-    const userId = session.uid;
+  async findOne(@Param('id') id: string, @Req() req: any) {
+    const userId = req.user.id;
 
     const paper = await this.papersService.findPaperById(id);
     if (paper && paper.authorId === userId)
@@ -98,9 +98,9 @@ export class PapersController {
   async update(
     @Param('id') id: string,
     @Body() updatePaperDto: UpdatePaperDto,
-    @Session() session: any,
+    @Req() req: any,
   ) {
-    const userId = session.uid;
+    const userId = req.user.id;
     const paper = await this.papersService.findPaperById(id);
 
     if (paper && paper.authorId === userId) {
@@ -125,8 +125,8 @@ export class PapersController {
 
   @UseGuards(SessionGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string, @Session() session: any) {
-    const userId = session.uid;
+  async remove(@Param('id') id: string, @Req() req: any) {
+    const userId = req.user.id;
 
     const paper = await this.papersService.findPaperById(id);
     if (paper && paper.authorId === userId)
