@@ -71,12 +71,14 @@ export class PapersController {
       },
       where: {
         authorId: userId,
-        OR: {
-          question: { not: '' },
-          body: {
-            not: '',
+        OR: [
+          { question: { not: '' } },
+          {
+            body: {
+              not: '',
+            },
           },
-        },
+        ],
       },
     });
   }
