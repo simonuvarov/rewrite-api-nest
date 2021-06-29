@@ -20,6 +20,9 @@ export class LocalAuthStrategy extends PassportStrategy(Strategy) {
     if (!user)
       throw new UnauthorizedException('User with this email is not registered');
 
+    if (!user.emailVerified)
+      throw new UnauthorizedException('User has not confirmed email yet');
+
     const isMatch = await this.passwordService.validatePassword(
       password,
       user.hash,
