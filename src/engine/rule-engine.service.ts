@@ -30,6 +30,7 @@ export class RuleEngineService {
     this.rules = rules;
   }
 
+  // TODO: probably easier to move it to frontend
   private sortIssues(issues: Array<Issue>): Array<Issue> {
     const sortedIssues = issues.sort((a, b) => {
       if (!a.isInline && b.isInline) return -1;
