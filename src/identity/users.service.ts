@@ -40,12 +40,36 @@ export class UsersService {
   findOne(id: string) {
     return this.prisma.user.findFirst({
       where: { id },
-      select: { id: true, email: true, createdAt: true, updatedAt: true },
+      select: {
+        id: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+        emailVerified: true,
+      },
     });
   }
 
   findByEmail(email: string) {
-    return this.prisma.user.findFirst({ where: { email: email } });
+    return this.prisma.user.findFirst({
+      where: { email: email },
+      select: {
+        id: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+        emailVerified: true,
+      },
+    });
+  }
+
+  async getHash(userId: string) {
+    const { hash } = await this.prisma.user.findFirst({
+      where: { id: userId },
+      select: { hash: true },
+    });
+
+    return hash;
   }
 
   verifyEmail(email: string) {

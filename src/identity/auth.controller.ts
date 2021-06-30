@@ -19,10 +19,11 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('/signin')
-  @HttpCode(204)
-  async signin() {
+  @HttpCode(200)
+  async signin(@Req() req: any) {
     // All work here is done by auth strategy and auth guard
-    return;
+
+    return req.user;
   }
 
   @Post('/signup')

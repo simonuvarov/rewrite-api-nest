@@ -1,6 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { User } from '@prisma/client';
 import { Strategy } from 'passport-local';
 import { PasswordService } from './password.service';
 import { UsersService } from './users.service';
@@ -15,7 +14,7 @@ export class LocalAuthStrategy extends PassportStrategy(Strategy) {
       usernameField: 'email',
     });
   }
-  async validate(email: string, password: string): Promise<User> {
+  async validate(email: string, password: string) {
     const user = await this.userService.findByEmail(email);
     if (!user)
       throw new UnauthorizedException('User with this email is not registered');
@@ -23,10 +22,9 @@ export class LocalAuthStrategy extends PassportStrategy(Strategy) {
     if (!user.emailVerified)
       throw new UnauthorizedException('User has not confirmed email yet');
 
-    const isMatch = await this.passwordService.validatePassword(
-      password,
-      user.hash,
-    );
+    const hash = await this.userService.getHash(user.id);
+
+    const isMatch = await this.passwordService.validatePassword(password, hash);
 
     if (!isMatch) throw new UnauthorizedException('Password is incorrect');
 
