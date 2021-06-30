@@ -26,7 +26,13 @@ export class UsersService {
     );
     const user = await this.prisma.user.create({
       data: { email: userCredentialsDto.email, hash: hash },
-      select: { id: true, email: true, createdAt: true, updatedAt: true },
+      select: {
+        id: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+        emailVerified: true,
+      },
     });
 
     this.eventEmitter.emit(

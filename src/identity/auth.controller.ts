@@ -27,15 +27,15 @@ export class AuthController {
   }
 
   @Post('/signup')
-  @HttpCode(204)
+  @HttpCode(200)
   async signup(@Body() userCredentialsDto: UserCredentialsDto) {
     const userAlreadyExists = await this.userService.findByEmail(
       userCredentialsDto.email,
     );
     if (userAlreadyExists)
       throw new ConflictException('This email address is already taken');
-    await this.userService.create(userCredentialsDto);
-    return;
+    const newUser = await this.userService.create(userCredentialsDto);
+    return newUser;
   }
 
   @Post('/signout')
