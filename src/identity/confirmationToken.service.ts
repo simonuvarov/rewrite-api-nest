@@ -9,7 +9,7 @@ interface GenerateProps {
 
 @Injectable()
 export class ConfirmationTokenService {
-  private readonly prefix = 'token';
+  private readonly prefix = 'confirm';
 
   constructor(private redisService: RedisService) {}
 

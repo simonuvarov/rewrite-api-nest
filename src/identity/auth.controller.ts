@@ -11,6 +11,7 @@ import { Request } from 'express';
 import { UserCredentialsDto } from './dto/user-credentials';
 import { LocalAuthGuard } from './passport/local-auth.guard';
 import { SessionGuard } from './passport/session.guard';
+import { UniqueTokenGuard } from './passport/unique-token.guard';
 import { UsersService } from './users.service';
 
 @Controller('auth')
@@ -43,5 +44,14 @@ export class AuthController {
   @HttpCode(204)
   async signout(@Req() req: Request) {
     req.logout();
+  }
+
+  @UseGuards(UniqueTokenGuard)
+  @Post('/verify/:token')
+  async confirmEmail(@Req() req: any) {
+    await this.userService.verifyEmail(req.user.email);
+    const user = this.userService.findByEmail(req.user.email);
+
+    return user;
   }
 }

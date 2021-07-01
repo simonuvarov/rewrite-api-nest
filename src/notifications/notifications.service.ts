@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { UserCreatedEvent } from 'src/identity/events/user-created.event';
 import { ConfirmationTokenService } from 'src/identity/confirmationToken.service';
+import { UserCreatedEvent } from 'src/identity/events/user-created.event';
 import { EmailService } from '../email/email.service';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class NotificationsService {
     const token: string = await this.confirmationTokenService.generate({
       data: {
         email: payload.email,
-        uid: payload.id,
+        userId: payload.id,
       },
     });
 

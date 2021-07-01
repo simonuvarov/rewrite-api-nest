@@ -1,15 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma.service';
 import { UserCredentialsDto } from './dto/user-credentials';
 import { UserCreatedEvent } from './events/user-created.event';
 import { PasswordService } from './password.service';
-
-interface VerificationData {
-  uid: string;
-  email: string;
-}
 
 @Injectable()
 export class UsersService {
@@ -17,7 +11,6 @@ export class UsersService {
     private prisma: PrismaService,
     private passwordService: PasswordService,
     private eventEmitter: EventEmitter2,
-    private jwtService: JwtService,
   ) {}
 
   async create(userCredentialsDto: UserCredentialsDto) {
@@ -83,22 +76,6 @@ export class UsersService {
       where: { email: email },
       data: { emailVerified: true },
     });
-  }
-
-  parseEmailVerificationToken(token: string): VerificationData | null {
-    try {
-      const data = this.jwtService.verify(token);
-      return { uid: data.sub, email: data.email };
-    } catch (error) {
-      return null;
-    }
-  }
-
-  generateEmailVerificationToken(props: VerificationData): string {
-    return this.jwtService.sign(
-      { email: props.email },
-      { subject: props.uid, expiresIn: '1d' },
-    );
   }
 
   // update(id: string, updateUserDto: UpdateUserDto) {
