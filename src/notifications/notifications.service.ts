@@ -20,7 +20,7 @@ export class NotificationsService {
       },
     });
 
-    const link = `https://tryrewrite.com/api/users/email/verify/${token}`;
+    const link = `https://tryrewrite.com/verify/${token}`;
 
     await this.emailService.sendEmailTemplate({
       templateAlias: 'email-confirmation',
