@@ -1,21 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { UserCreatedEvent } from 'src/identity/events/user-created.event';
-import { UsersService } from 'src/identity/users.service';
+import { ConfirmationTokenService } from 'src/identity/confirmationToken.service';
 import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class NotificationsService {
   constructor(
     private emailService: EmailService,
-    private userService: UsersService,
+    private confirmationTokenService: ConfirmationTokenService,
   ) {}
 
   @OnEvent('user.created')
   async handleUserCreated(payload: UserCreatedEvent) {
-    const token = this.userService.generateEmailVerificationToken({
-      email: payload.email,
-      uid: payload.id,
+    const token: string = await this.confirmationTokenService.generate({
+      data: {
+        email: payload.email,
+        uid: payload.id,
+      },
     });
 
     const link = `https://tryrewrite.com/api/users/email/verify/${token}`;
