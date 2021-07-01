@@ -7,6 +7,7 @@ import session from 'express-session';
 import ms from 'ms';
 import { RedisService } from 'nestjs-redis';
 import passport from 'passport';
+import { v4 as uuid } from 'uuid';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -30,6 +31,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       rolling: true,
+      genid: () => uuid(),
       cookie: {
         httpOnly: true,
         maxAge: isProduction ? ms('30d') : ms('1h'),
