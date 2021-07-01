@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { UserCredentialsDto } from './dto/user-credentials';
-import { LocalAuthGuard } from './local-auth.guard';
-import { SessionGuard } from './session.guard';
+import { LocalAuthGuard } from './passport/local-auth.guard';
+import { SessionGuard } from './passport/session.guard';
 import { UsersService } from './users.service';
 
 @Controller('auth')

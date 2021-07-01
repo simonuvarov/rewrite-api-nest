@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { isJWT } from 'class-validator';
-import { SessionGuard } from './session.guard';
+import { SessionGuard } from './passport/session.guard';
 import { UsersService } from './users.service';
 
 @Controller('users')

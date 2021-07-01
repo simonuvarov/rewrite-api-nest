@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { EasyWordsRule } from 'src/engine/rules/easy-words.rule';
-import { SessionGuard } from 'src/identity/session.guard';
+import { SessionGuard } from 'src/identity/passport/session.guard';
 import { GrammarService } from '../engine/grammar.service';
 import { NlpService } from '../engine/nlp.service';
 import { RuleEngineService } from '../engine/rule-engine.service';
