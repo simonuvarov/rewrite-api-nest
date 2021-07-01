@@ -5,8 +5,8 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import createRedisStore from 'connect-redis';
 import session from 'express-session';
 import ms from 'ms';
+import { RedisService } from 'nestjs-redis';
 import passport from 'passport';
-import { createClient } from 'redis';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -18,9 +18,7 @@ async function bootstrap() {
 
   const RedisStore = createRedisStore(session);
 
-  const redisClient = createClient({
-    url: configService.get('REDIS_URL'),
-  });
+  const redisClient = app.get(RedisService).getClient();
 
   const isProduction = configService.get('NODE_ENV') === 'production';
 

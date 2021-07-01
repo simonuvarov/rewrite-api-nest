@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import * as Joi from 'joi';
+import { RedisModule } from 'nestjs-redis';
 import { IdentityModule } from './identity/identity.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { PapersModule } from './papers/papers.module';
@@ -26,6 +27,13 @@ import { PapersModule } from './papers/papers.module';
           .required(),
         POSTMARK_API_KEY: Joi.string().required(),
         REDIS_URL: Joi.string().required(),
+      }),
+    }),
+    RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        url: configService.get('REDIS_URL'),
       }),
     }),
   ],
