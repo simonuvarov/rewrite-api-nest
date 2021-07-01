@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import ms from 'ms';
+import { nanoid } from 'nanoid';
 import { RedisService } from 'nestjs-redis';
-import { v4 as uuid } from 'uuid';
 
 interface GenerateProps {
   data: any;
@@ -15,7 +15,7 @@ export class ConfirmationTokenService {
 
   async generate(props: GenerateProps) {
     const redisClient = this.redisService.getClient();
-    const token = uuid();
+    const token = nanoid();
     const key = `${this.prefix}:${token}`;
 
     await redisClient.set(key, this.serialize(props.data), 'PX', ms('2h'));
