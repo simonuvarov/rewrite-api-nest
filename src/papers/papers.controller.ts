@@ -57,20 +57,20 @@ export class PapersController {
   @UseGuards(SessionGuard)
   @Post()
   create(@Body() createPaperDto: CreatePaperDto, @Req() req: any) {
-    const userId = req.user.id;
-    return this.papersService.createPaper(createPaperDto, userId);
+    const studentId = req.user.id;
+    return this.papersService.createPaper(createPaperDto, studentId);
   }
 
   @UseGuards(SessionGuard)
   @Get()
   async findAll(@Req() req: any) {
-    const userId = req.user.id;
+    const studentId = req.user.id;
     return await this.papersService.findAll({
       orderBy: {
         updatedAt: 'desc',
       },
       where: {
-        authorId: userId,
+        studentId: studentId,
         OR: [
           { question: { not: '' } },
           {
@@ -86,10 +86,10 @@ export class PapersController {
   @UseGuards(SessionGuard)
   @Get(':id')
   async findOne(@Param('id') id: string, @Req() req: any) {
-    const userId = req.user.id;
+    const studentId = req.user.id;
 
     const paper = await this.papersService.findPaperById(id);
-    if (paper && paper.authorId === userId)
+    if (paper && paper.studentId === studentId)
       return this.papersService.findPaperById(id);
 
     throw new NotFoundException();
@@ -102,10 +102,10 @@ export class PapersController {
     @Body() updatePaperDto: UpdatePaperDto,
     @Req() req: any,
   ) {
-    const userId = req.user.id;
+    const studentId = req.user.id;
     const paper = await this.papersService.findPaperById(id);
 
-    if (paper && paper.authorId === userId) {
+    if (paper && paper.studentId === studentId) {
       await this.engine.run(updatePaperDto);
       const bands = this.engine.bands;
       const issues = this.engine.issues;
@@ -128,10 +128,10 @@ export class PapersController {
   @UseGuards(SessionGuard)
   @Delete(':id')
   async remove(@Param('id') id: string, @Req() req: any) {
-    const userId = req.user.id;
+    const studentId = req.user.id;
 
     const paper = await this.papersService.findPaperById(id);
-    if (paper && paper.authorId === userId)
+    if (paper && paper.studentId === studentId)
       return this.papersService.remove(id);
 
     throw new NotFoundException();

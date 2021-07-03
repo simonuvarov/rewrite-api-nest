@@ -1,24 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'src/prisma.service';
-import { UserCredentialsDto } from './dto/user-credentials';
-import { UserCreatedEvent } from './events/user-created.event';
+import { StudentCredentialsDto } from './dto/student-credentials';
+import { StudentCreatedEvent } from './events/student-created.event';
 import { PasswordService } from './password.service';
 
 @Injectable()
-export class UsersService {
+export class StudentService {
   constructor(
     private prisma: PrismaService,
     private passwordService: PasswordService,
     private eventEmitter: EventEmitter2,
   ) {}
 
-  async create(userCredentialsDto: UserCredentialsDto) {
+  async create(studentCredentialsDto: StudentCredentialsDto) {
     const hash = await this.passwordService.hashPassword(
-      userCredentialsDto.password,
+      studentCredentialsDto.password,
     );
-    const user = await this.prisma.user.create({
-      data: { email: userCredentialsDto.email, hash: hash },
+    const student = await this.prisma.student.create({
+      data: { email: studentCredentialsDto.email, hash: hash },
       select: {
         id: true,
         email: true,
@@ -29,15 +29,15 @@ export class UsersService {
     });
 
     this.eventEmitter.emit(
-      'user.created',
-      new UserCreatedEvent(user.id, user.email),
+      'student.created',
+      new StudentCreatedEvent(student.id, student.email),
     );
 
-    return user;
+    return student;
   }
 
   findOne(id: string) {
-    return this.prisma.user.findFirst({
+    return this.prisma.student.findFirst({
       where: { id },
       select: {
         id: true,
@@ -50,7 +50,7 @@ export class UsersService {
   }
 
   findByEmail(email: string) {
-    return this.prisma.user.findFirst({
+    return this.prisma.student.findFirst({
       where: { email: email },
       select: {
         id: true,
@@ -62,9 +62,9 @@ export class UsersService {
     });
   }
 
-  async getHash(userId: string) {
-    const { hash } = await this.prisma.user.findFirst({
-      where: { id: userId },
+  async getHash(studentId: string) {
+    const { hash } = await this.prisma.student.findFirst({
+      where: { id: studentId },
       select: { hash: true },
     });
 
@@ -72,17 +72,17 @@ export class UsersService {
   }
 
   verifyEmail(email: string) {
-    return this.prisma.user.update({
+    return this.prisma.student.update({
       where: { email: email },
       data: { emailVerified: true },
     });
   }
 
-  // update(id: string, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
+  // update(id: string, updateStudentDto: UpdateStudentDto) {
+  //   return `This action updates a #${id} student`;
   // }
 
   remove(id: string) {
-    return this.prisma.user.delete({ where: { id } });
+    return this.prisma.student.delete({ where: { id } });
   }
 }

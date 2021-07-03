@@ -8,15 +8,15 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { UserCredentialsDto } from './dto/user-credentials';
+import { StudentCredentialsDto } from './dto/student-credentials';
 import { LocalAuthGuard } from './passport/local-auth.guard';
 import { SessionGuard } from './passport/session.guard';
 import { UniqueTokenGuard } from './passport/unique-token.guard';
-import { UsersService } from './users.service';
+import { StudentService } from './student.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private userService: UsersService) {}
+  constructor(private studentService: StudentService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('/signin')
@@ -29,14 +29,14 @@ export class AuthController {
 
   @Post('/signup')
   @HttpCode(200)
-  async signup(@Body() userCredentialsDto: UserCredentialsDto) {
-    const userAlreadyExists = await this.userService.findByEmail(
-      userCredentialsDto.email,
+  async signup(@Body() studentCredentialsDto: StudentCredentialsDto) {
+    const studentAlreadyExists = await this.studentService.findByEmail(
+      studentCredentialsDto.email,
     );
-    if (userAlreadyExists)
+    if (studentAlreadyExists)
       throw new ConflictException('This email address is already taken');
-    const newUser = await this.userService.create(userCredentialsDto);
-    return newUser;
+    const newStudent = await this.studentService.create(studentCredentialsDto);
+    return newStudent;
   }
 
   @Post('/signout')
@@ -49,9 +49,9 @@ export class AuthController {
   @UseGuards(UniqueTokenGuard)
   @Post('/verify/:token')
   async confirmEmail(@Req() req: any) {
-    await this.userService.verifyEmail(req.user.email);
-    const user = this.userService.findByEmail(req.user.email);
+    await this.studentService.verifyEmail(req.user.email);
+    const student = this.studentService.findByEmail(req.user.email);
 
-    return user;
+    return student;
   }
 }

@@ -2,12 +2,12 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { UniqueTokenStrategy as Strategy } from 'passport-unique-token';
 import { ConfirmationTokenService } from '../confirmationToken.service';
-import { UsersService } from '../users.service';
+import { StudentService } from '../student.service';
 
 @Injectable()
 export class UniqueTokenStrategy extends PassportStrategy(Strategy, 'token') {
   constructor(
-    private userService: UsersService,
+    private studentService: StudentService,
     private confirmationTokenService: ConfirmationTokenService,
   ) {
     super({
@@ -20,9 +20,9 @@ export class UniqueTokenStrategy extends PassportStrategy(Strategy, 'token') {
 
     const data = await this.confirmationTokenService.get(token);
 
-    const user = await this.userService.findOne(data.userId);
+    const student = await this.studentService.findOne(data.studentId);
 
     await this.confirmationTokenService.delete(token);
-    return user;
+    return student;
   }
 }

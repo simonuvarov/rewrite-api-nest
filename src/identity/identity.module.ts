@@ -10,14 +10,14 @@ import { SessionSerializer } from './passport/session.serializer';
 import { UniqueTokenGuard } from './passport/unique-token.guard';
 import { UniqueTokenStrategy } from './passport/unique-token.strategy';
 import { PasswordService } from './password.service';
-import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
+import { ProfileController } from './student.controller';
+import { StudentService } from './student.service';
 
 @Module({
-  controllers: [AuthController, UsersController],
+  controllers: [AuthController, ProfileController],
   providers: [
     PasswordService,
-    UsersService,
+    StudentService,
     PrismaService,
     LocalAuthStrategy,
     LocalAuthGuard,
@@ -28,6 +28,6 @@ import { UsersService } from './users.service';
     UniqueTokenStrategy,
   ],
   imports: [JwtModule.register({ secret: 'hard!to-guess_secret' })],
-  exports: [UsersService, ConfirmationTokenService],
+  exports: [StudentService, ConfirmationTokenService],
 })
 export class IdentityModule {}

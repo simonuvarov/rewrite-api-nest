@@ -8,12 +8,12 @@ import { SaveGradedPaperDto } from './dto/save-graded-paper-dto';
 export class PapersService {
   constructor(private prisma: PrismaService) {}
 
-  createPaper(paper: CreatePaperDto, userId: string) {
+  createPaper(paper: CreatePaperDto, studentId: string) {
     return this.prisma.paper.create({
       data: {
         question: paper.question || '',
         body: paper.body || '',
-        author: { connect: { id: userId } },
+        student: { connect: { id: studentId } },
       },
     });
   }

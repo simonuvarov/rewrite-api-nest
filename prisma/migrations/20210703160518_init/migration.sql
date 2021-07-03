@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Paper" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "question" TEXT NOT NULL,
     "body" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -10,14 +10,14 @@ CREATE TABLE "Paper" (
     "ccBand" INTEGER NOT NULL DEFAULT 0,
     "lrBand" INTEGER NOT NULL DEFAULT 0,
     "grBand" INTEGER NOT NULL DEFAULT 0,
-    "authorId" TEXT NOT NULL,
+    "studentId" UUID NOT NULL,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "User" (
-    "id" TEXT NOT NULL,
+CREATE TABLE "Student" (
+    "id" UUID NOT NULL,
     "email" TEXT NOT NULL,
     "hash" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -28,7 +28,7 @@ CREATE TABLE "User" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
+CREATE UNIQUE INDEX "Student.email_unique" ON "Student"("email");
 
 -- AddForeignKey
-ALTER TABLE "Paper" ADD FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Paper" ADD FOREIGN KEY ("studentId") REFERENCES "Student"("id") ON DELETE CASCADE ON UPDATE CASCADE;

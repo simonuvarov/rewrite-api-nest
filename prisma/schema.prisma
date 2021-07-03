@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Paper {
-  id        String   @id @default(uuid())
+  id        String   @id @default(uuid()) @db.Uuid
   question  String
   body      String
   createdAt DateTime @default(now())
@@ -18,12 +18,12 @@ model Paper {
   ccBand    Int @default(0)
   lrBand    Int @default(0)
   grBand    Int @default(0)
-  author    User  @relation(fields: [authorId], references: [id])
-  authorId  String 
+  student    Student  @relation(fields: [studentId], references: [id])
+  studentId  String @db.Uuid
 }
 
-model User {
-  id        String    @id @default(uuid())
+model Student {
+  id        String    @id @default(uuid()) @db.Uuid
   email     String    @unique
   hash      String
   createdAt DateTime  @default(now())
