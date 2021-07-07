@@ -1,13 +1,14 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule, RuleProps } from './_base.rule';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
+import { BaseRule } from './_base.rule';
+import { ParsedPaper } from './_parsed-paper.class';
 
 export class ParagraphCountRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.CC;
   }
-  async _execute(props: RuleProps) {
-    const paragraphCount = props.parsedBody
+  async _execute(parsedPaper: ParsedPaper) {
+    const paragraphCount = parsedPaper.parsedBody
       .text()
       .replace(/\n$/gm, '')
       .split(/\n/).length;

@@ -4,6 +4,7 @@ import { GrammarService } from './grammar.service';
 import { Issue } from './issue.type';
 import { NlpService } from './nlp.service';
 import { BaseRule } from './rules/_base.rule';
+import { ParsedPaper } from './rules/_parsed-paper.class';
 
 export interface RuleExecutionResult {
   affects: CRITERIA_TYPE;
@@ -108,14 +109,15 @@ export class RuleEngineService {
     const parsedBody = await this.nlpService.parse(paper.body);
     const grammarCheckResult = await this.grammarService.check(paper.body);
 
+    const parsedPaper = new ParsedPaper({
+      question: paper.question,
+      body: paper.body,
+      parsedBody,
+      grammarCheckResult,
+    });
+
     this.results = await Promise.all(
-      this.rules.map((rule) =>
-        rule.execute({
-          question: paper.question,
-          parsedBody,
-          grammarCheckResult,
-        }),
-      ),
+      this.rules.map((rule) => rule.execute(parsedPaper)),
     );
     const endTime = new Date();
 

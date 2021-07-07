@@ -1,13 +1,14 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule, RuleProps } from './_base.rule';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
+import { BaseRule } from './_base.rule';
+import { ParsedPaper } from './_parsed-paper.class';
 
 export class ContractionsRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }
-  async _execute(props: RuleProps) {
-    const contractions = props.parsedBody.contractions();
+  async _execute(parsedPaper: ParsedPaper) {
+    const contractions = parsedPaper.parsedBody.contractions();
 
     contractions.forEach((c) => {
       this.issues.push({

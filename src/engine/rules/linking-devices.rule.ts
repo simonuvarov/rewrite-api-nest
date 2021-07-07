@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
-import { BaseRule, RuleProps } from './_base.rule';
+import { BaseRule } from './_base.rule';
+import { ParsedPaper } from './_parsed-paper.class';
 
 const LINKING_WORDS_LIST = [
   'accordingly',
@@ -60,8 +61,8 @@ export class LinkingDevicesRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.CC;
   }
-  async _execute(props: RuleProps) {
-    const matches = props.parsedBody.match(LINKING_WORDS_MATCH_STRING);
+  async _execute(parsedPaper: ParsedPaper) {
+    const matches = parsedPaper.parsedBody.match(LINKING_WORDS_MATCH_STRING);
     const matchCount = matches.out('array').length;
 
     if (matchCount >= 6) this.score = 2;

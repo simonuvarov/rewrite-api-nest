@@ -1,13 +1,14 @@
 import { v4 as uuid } from 'uuid';
-import { BaseRule, RuleProps } from './_base.rule';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
+import { BaseRule } from './_base.rule';
+import { ParsedPaper } from './_parsed-paper.class';
 
 export class WordCountRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.TA;
   }
-  async _execute(props: RuleProps) {
-    const wordCount = props.parsedBody.wordCount();
+  async _execute(parsedPaper: ParsedPaper) {
+    const wordCount = parsedPaper.parsedBody.wordCount();
 
     if (wordCount >= 250 && wordCount <= 350) {
       this.score = 2;

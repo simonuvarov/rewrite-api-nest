@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
-import { BaseRule, RuleProps } from './_base.rule';
+import { BaseRule } from './_base.rule';
+import { ParsedPaper } from './_parsed-paper.class';
 
 const AWL = [
   'abandon',
@@ -581,8 +582,8 @@ export class AcademicWordsRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.LR;
   }
-  async _execute(props: RuleProps) {
-    const matches = props.parsedBody.match(ACADEMIC_WORDS_MATCH_STRING);
+  async _execute(parsedPaper: ParsedPaper) {
+    const matches = parsedPaper.parsedBody.match(ACADEMIC_WORDS_MATCH_STRING);
     const matchCount = matches.out('array').length;
 
     if (matchCount >= 15) this.score = 2;

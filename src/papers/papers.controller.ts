@@ -12,8 +12,6 @@ import {
 } from '@nestjs/common';
 import { EasyWordsRule } from 'src/engine/rules/easy-words.rule';
 import { SessionGuard } from 'src/identity/passport/session.guard';
-import { GrammarService } from '../engine/grammar.service';
-import { NlpService } from '../engine/nlp.service';
 import { RuleEngineService } from '../engine/rule-engine.service';
 import { AcademicWordsRule } from '../engine/rules/academic-words.rule';
 import { ConclusionRule } from '../engine/rules/conclusion.rule';
@@ -34,19 +32,17 @@ import { PapersService } from './papers.service';
 export class PapersController {
   constructor(
     private readonly papersService: PapersService,
-    private grammarService: GrammarService,
     private engine: RuleEngineService,
-    private nlpService: NlpService,
   ) {
     this.engine.setRules([
-      new GrammarErrorsRule(this.grammarService),
+      new GrammarErrorsRule(),
       new ConclusionRule(),
       new WordCountRule(),
       new ParagraphCountRule(),
       new LinkingDevicesRule(),
       new PassiveVoiceRule(),
       new PerfectTenseRule(),
-      new SpellingErrorsRule(this.grammarService),
+      new SpellingErrorsRule(),
       new AcademicWordsRule(),
       new InformalWordsRule(),
       new ContractionsRule(),

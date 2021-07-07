@@ -1,7 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
 import { InlineIssue } from '../issue.type';
-import { BaseRule, RuleProps } from './_base.rule';
+import { BaseRule } from './_base.rule';
+import { ParsedPaper } from './_parsed-paper.class';
 
 interface RULE {
   replacements?: Array<string>;
@@ -27,8 +28,8 @@ export class EasyWordsRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.LR;
   }
-  async _execute(props: RuleProps) {
-    const matches = props.parsedBody.match(EASY_WORDS_MATCH_STRING);
+  async _execute(parsedPaper: ParsedPaper) {
+    const matches = parsedPaper.parsedBody.match(EASY_WORDS_MATCH_STRING);
     const matchesJson = matches.json({ offset: true });
 
     const issues: Array<InlineIssue> = matchesJson.map((m) => {

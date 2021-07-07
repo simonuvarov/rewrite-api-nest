@@ -1,13 +1,14 @@
 import { v4 as uuid } from 'uuid';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
-import { GrammarService, GRAMMAR_ISSUE_TYPE } from '../grammar.service';
-import { BaseRule, RuleProps } from './_base.rule';
+import { GRAMMAR_ISSUE_TYPE } from '../grammar.service';
+import { BaseRule } from './_base.rule';
+import { ParsedPaper } from './_parsed-paper.class';
 
 export class SpellingErrorsRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.LR;
   }
-  constructor(private grammarService: GrammarService) {
+  constructor() {
     super();
   }
 
@@ -15,11 +16,10 @@ export class SpellingErrorsRule extends BaseRule {
     return text.indexOf(sentence);
   }
 
-  async _execute(props: RuleProps) {
-    const sentences = props.parsedBody.sentences().out('array');
+  async _execute(parsedPaper: ParsedPaper) {
+    const sentences = parsedPaper.parsedBody.sentences().out('array');
 
-    // TODO: extract to rule engine
-    const foundIssues = props.grammarCheckResult;
+    const foundIssues = parsedPaper.grammarCheckResult;
     const spellingIssues = foundIssues.filter(
       (issue) => issue.type === GRAMMAR_ISSUE_TYPE.SPELLING,
     );
@@ -29,7 +29,7 @@ export class SpellingErrorsRule extends BaseRule {
     sentences.forEach((sentence) => {
       const offset = this.calculateSentenceOffset(
         sentence,
-        props.parsedBody.text(),
+        parsedPaper.parsedBody.text(),
       );
       const length = sentence.length;
       const sentenceEnd = offset + length;

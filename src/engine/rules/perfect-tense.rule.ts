@@ -1,13 +1,14 @@
 import { v4 as uuid } from 'uuid';
 import { CRITERIA_TYPE } from '../criteria-type.enum';
-import { BaseRule, RuleProps } from './_base.rule';
+import { BaseRule } from './_base.rule';
+import { ParsedPaper } from './_parsed-paper.class';
 
 export class PerfectTenseRule extends BaseRule {
   get affects(): CRITERIA_TYPE {
     return CRITERIA_TYPE.GR;
   }
-  async _execute(props: RuleProps) {
-    const match = props.parsedBody.match(
+  async _execute(parsedPaper: ParsedPaper) {
+    const match = parsedPaper.parsedBody.match(
       '(will|shall)? (has|have|had) #Negative? #Adverb? #Verb+',
     );
 
