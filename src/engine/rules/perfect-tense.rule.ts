@@ -23,8 +23,9 @@ export class PerfectTenseRule extends BaseRule {
         affects: this.affects,
         message:
           'You need to use a variety of tenses in your essay to get a higher score. Perfect tense usage (e.g. “I have done“) seems to be missing.',
-        shortMessage: 'Did you use perfect tense?',
+        shortMessage: 'Insufficient usage of the perfect tense',
         isInline: false,
+        link: 'https://www.ef.com/wwen/english-resources/english-grammar/present-perfect/',
       });
   }
 }
