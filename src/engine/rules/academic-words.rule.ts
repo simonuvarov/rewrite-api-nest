@@ -595,7 +595,7 @@ export class AcademicWordsRule extends BaseRule {
         id: uuid(),
         affects: this.affects,
         message:
-          'Your vocabulary can affect your score. Try using more sophisticated words. However, ensure that you understand the full meaning of the word, because using an rare word in the wrong place will lower your score.',
+          'Your vocabulary can affect your score. Try using more sophisticated words. However, ensure that you understand the full meaning of the word, because using a rare word in the wrong place will lower your score.',
         shortMessage: 'Lack of vocabulary complexity',
         isInline: false,
         link: 'https://www.wgtn.ac.nz/lals/resources/academicwordlist',
