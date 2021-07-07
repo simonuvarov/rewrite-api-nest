@@ -21,8 +21,9 @@ export class PassiveVoiceRule extends BaseRule {
         affects: this.affects,
         message:
           'You need to use a variety of sentece structures in your essay to get a higher score. Passive voice (e.g. “It is known that...“) seems to be missing. Also, passive voice sounds more formal.',
-        shortMessage: 'Passive voice',
+        shortMessage: 'Insufficient usage of passive voice',
         isInline: false,
+        link: 'https://www.ef.com/wwen/english-resources/english-grammar/passive-voice/',
       });
   }
 }
