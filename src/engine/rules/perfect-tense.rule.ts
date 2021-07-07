@@ -4,9 +4,8 @@ import { BaseRule } from './_base.rule';
 import { ParsedPaper } from './_parsed-paper.class';
 
 export class PerfectTenseRule extends BaseRule {
-  get affects(): CRITERIA_TYPE {
-    return CRITERIA_TYPE.GR;
-  }
+  affects = CRITERIA_TYPE.GR;
+
   async _execute(parsedPaper: ParsedPaper) {
     const match = parsedPaper.parsedBody.match(
       '(will|shall)? (has|have|had) #Negative? #Adverb? #Verb+',

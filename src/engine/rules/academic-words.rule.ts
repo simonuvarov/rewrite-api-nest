@@ -579,9 +579,8 @@ const AWL = [
 const ACADEMIC_WORDS_MATCH_STRING = `(${AWL.join('|')})`;
 
 export class AcademicWordsRule extends BaseRule {
-  get affects(): CRITERIA_TYPE {
-    return CRITERIA_TYPE.LR;
-  }
+  affects = CRITERIA_TYPE.LR;
+
   async _execute(parsedPaper: ParsedPaper) {
     const matches = parsedPaper.parsedBody.match(ACADEMIC_WORDS_MATCH_STRING);
     const matchCount = matches.out('array').length;

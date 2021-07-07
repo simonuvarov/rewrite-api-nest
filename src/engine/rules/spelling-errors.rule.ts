@@ -5,9 +5,8 @@ import { BaseRule } from './_base.rule';
 import { ParsedPaper } from './_parsed-paper.class';
 
 export class SpellingErrorsRule extends BaseRule {
-  get affects(): CRITERIA_TYPE {
-    return CRITERIA_TYPE.LR;
-  }
+  affects = CRITERIA_TYPE.LR;
+
   constructor() {
     super();
   }

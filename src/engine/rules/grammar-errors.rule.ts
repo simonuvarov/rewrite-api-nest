@@ -5,9 +5,8 @@ import { BaseRule } from './_base.rule';
 import { ParsedPaper } from './_parsed-paper.class';
 
 export class GrammarErrorsRule extends BaseRule {
-  get affects(): CRITERIA_TYPE {
-    return CRITERIA_TYPE.GR;
-  }
+  affects = CRITERIA_TYPE.GR;
+
   constructor() {
     super();
   }

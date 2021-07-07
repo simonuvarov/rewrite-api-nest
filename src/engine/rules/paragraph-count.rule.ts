@@ -4,9 +4,8 @@ import { BaseRule } from './_base.rule';
 import { ParsedPaper } from './_parsed-paper.class';
 
 export class ParagraphCountRule extends BaseRule {
-  get affects(): CRITERIA_TYPE {
-    return CRITERIA_TYPE.CC;
-  }
+  affects = CRITERIA_TYPE.CC;
+
   async _execute(parsedPaper: ParsedPaper) {
     const paragraphCount = parsedPaper.parsedBody
       .text()

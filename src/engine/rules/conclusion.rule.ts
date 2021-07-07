@@ -8,9 +8,8 @@ import { ParsedPaper } from './_parsed-paper.class';
 const CONCLUSION_DEVICES = ['to conclude', 'in conclusion', 'to sum up'];
 
 export class ConclusionRule extends BaseRule {
-  get affects(): CRITERIA_TYPE {
-    return CRITERIA_TYPE.TA;
-  }
+  affects = CRITERIA_TYPE.TA;
+
   async _execute(parsedPaper: ParsedPaper) {
     //TODO: replace with service
     const _nlp = nlp.extend(paragraphsPlugin);

@@ -4,9 +4,7 @@ import { BaseRule } from './_base.rule';
 import { ParsedPaper } from './_parsed-paper.class';
 
 export class PassiveVoiceRule extends BaseRule {
-  get affects(): CRITERIA_TYPE {
-    return CRITERIA_TYPE.GR;
-  }
+  affects = CRITERIA_TYPE.GR;
 
   async _execute(parsedPaper: ParsedPaper) {
     const match = parsedPaper.parsedBody.match('#Verb * #Participle');

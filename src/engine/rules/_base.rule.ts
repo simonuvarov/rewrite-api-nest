@@ -5,7 +5,7 @@ import { RuleExecutionResult } from '../rule-engine.service';
 import { ParsedPaper } from './_parsed-paper.class';
 
 export abstract class BaseRule {
-  abstract get affects(): CRITERIA_TYPE;
+  public abstract affects: CRITERIA_TYPE;
   protected score: number;
   protected issues: Array<Issue> = [];
   protected readonly logger = new Logger(this.constructor.name);

@@ -25,9 +25,8 @@ const EASy_WORDS_LIST: WORD_RULE_DICT = {
 const EASY_WORDS_MATCH_STRING = `(${Object.keys(EASy_WORDS_LIST).join('|')})`;
 
 export class EasyWordsRule extends BaseRule {
-  get affects(): CRITERIA_TYPE {
-    return CRITERIA_TYPE.LR;
-  }
+  affects = CRITERIA_TYPE.LR;
+
   async _execute(parsedPaper: ParsedPaper) {
     const matches = parsedPaper.parsedBody.match(EASY_WORDS_MATCH_STRING);
     const matchesJson = matches.json({ offset: true });

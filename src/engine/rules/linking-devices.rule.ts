@@ -58,9 +58,8 @@ const LINKING_WORDS_LIST = [
 const LINKING_WORDS_MATCH_STRING = `(${LINKING_WORDS_LIST.join('|')})`;
 
 export class LinkingDevicesRule extends BaseRule {
-  get affects(): CRITERIA_TYPE {
-    return CRITERIA_TYPE.CC;
-  }
+  affects = CRITERIA_TYPE.CC;
+
   async _execute(parsedPaper: ParsedPaper) {
     const matches = parsedPaper.parsedBody.match(LINKING_WORDS_MATCH_STRING);
     const matchCount = matches.out('array').length;

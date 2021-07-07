@@ -32,9 +32,8 @@ const INFORMAL_WORDS_AVOID_MATCH_STRING = `(${Object.keys(
 ).join('|')})`;
 
 export class InformalWordsRule extends BaseRule {
-  get affects(): CRITERIA_TYPE {
-    return CRITERIA_TYPE.TA;
-  }
+  affects = CRITERIA_TYPE.TA;
+
   async _execute(parsedPaper: ParsedPaper) {
     const matches = parsedPaper.parsedBody.match(
       INFORMAL_WORDS_AVOID_MATCH_STRING,

@@ -4,9 +4,8 @@ import { BaseRule } from './_base.rule';
 import { ParsedPaper } from './_parsed-paper.class';
 
 export class WordCountRule extends BaseRule {
-  get affects(): CRITERIA_TYPE {
-    return CRITERIA_TYPE.TA;
-  }
+  affects = CRITERIA_TYPE.TA;
+
   async _execute(parsedPaper: ParsedPaper) {
     const wordCount = parsedPaper.parsedBody.wordCount();
 
