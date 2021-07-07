@@ -73,8 +73,9 @@ export class LinkingDevicesRule extends BaseRule {
       this.issues.push({
         id: uuid(),
         affects: this.affects,
-        message: 'You need to use cohesive devices to get good score.',
-        shortMessage: 'Linking words',
+        message:
+          'You need to use cohesive devices to get a good score. Usage of such words and phrases will enable you to establish clear connections between your ideas.',
+        shortMessage: 'Insufficient usage of linking words',
         isInline: false,
       });
     }
